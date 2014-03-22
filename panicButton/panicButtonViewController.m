@@ -10,11 +10,20 @@
 #import "panicButtonSignUpViewController.h"
 #import "panicButtonUser.h"
 
+
+
 @interface panicButtonViewController ()
 
+   @property (nonatomic) BOOL panicButton;
+   @property (nonatomic) BOOL timeout;
+    
 @end
 
 @implementation panicButtonViewController
+    
+@synthesize panicButtonContainerView, panicButtonView, panicButtonSettiingsView;
+@synthesize timeoutContainerView, timeoutView, timeoutSetiingsView;
+@synthesize panicButton, timeout;
 
 
 #pragma mark -
@@ -26,8 +35,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    
-    [self performSelector:@selector(initPanicButtonApp) withObject:nil afterDelay:1.5];
+    [self initialize];
+    [self performSelector:@selector(initPanicButtonApp) withObject:nil afterDelay:0.1];
     
 }
 
@@ -43,21 +52,26 @@
 #pragma mark  Methods
 #pragma mark -
 
+-(void)initialize{
+    
+    panicButton = YES;
+    timeout = YES;
+    
+    [self initializeSwipeActions];
+    
+}
 
 -(void)initPanicButtonApp
 {
     
-    
-    
+    /*
     panicButtonSignUpViewController *panicButtonSignUp = (panicButtonSignUpViewController*)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"panicButtonSignUp"];
     [self presentViewController:panicButtonSignUp animated:YES completion:nil];
+*/
+    
+    
+    
 
-    
-    /*
-    
-    
-    // present
-    [self presentViewController:panicButtonSignUp animated:YES completion:nil];
     
     if ([[panicButtonUser sharedPanicButtonUser] checkIfUserIsRegistered]) {
         NSLog(@"USUARIO REGISTRADO");
@@ -73,9 +87,164 @@
         //[self dismissViewControllerAnimated:YES completion:nil];
     }
     
-     */
+    
     
 }
+   
+#pragma mark -
+#pragma mark Swipe Action Methods
+#pragma mark -
+    
+
+-(void)initializeSwipeActions{
+    
+    // Panic Button View
+    UISwipeGestureRecognizer *swipeToShowSettings = [[UISwipeGestureRecognizer alloc]
+                                       initWithTarget:self action:@selector(showPanicButtonSettings)];
+    swipeToShowSettings.numberOfTouchesRequired = 1;
+    swipeToShowSettings.direction = UISwipeGestureRecognizerDirectionRight;
+    [panicButtonContainerView addGestureRecognizer:swipeToShowSettings];
+    
+    UISwipeGestureRecognizer *swipeToHideSettings = [[UISwipeGestureRecognizer alloc]
+                                                     initWithTarget:self action:@selector(hidePanicButtonSettings)];
+    swipeToHideSettings.numberOfTouchesRequired = 1;
+    swipeToHideSettings.direction = UISwipeGestureRecognizerDirectionLeft ;
+    [panicButtonContainerView addGestureRecognizer:swipeToHideSettings];
+    
+    // Timeout View
+    
+    UISwipeGestureRecognizer *swipeToShowTimeoutSettings = [[UISwipeGestureRecognizer alloc]
+                                                     initWithTarget:self action:@selector(showTimeoutSettings)];
+    swipeToShowTimeoutSettings.numberOfTouchesRequired = 1;
+    swipeToShowTimeoutSettings.direction = UISwipeGestureRecognizerDirectionRight;
+    [timeoutContainerView addGestureRecognizer:swipeToShowTimeoutSettings];
+    
+    UISwipeGestureRecognizer *swipeToHideTimeoutSettings = [[UISwipeGestureRecognizer alloc]
+                                                     initWithTarget:self action:@selector(hideTimeoutSettings)];
+    swipeToHideTimeoutSettings.numberOfTouchesRequired = 1;
+    swipeToHideTimeoutSettings.direction = UISwipeGestureRecognizerDirectionLeft ;
+    [timeoutContainerView addGestureRecognizer:swipeToHideTimeoutSettings];
+    
+    
+    
+    
+    
+    
+}
+
+
+-(void)showPanicButtonSettings{
+    
+    
+    if (panicButton == YES){
+        
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:kFLIP_ANIMAMTION_TIME];
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:panicButtonContainerView cache:YES];
+        [panicButtonContainerView sendSubviewToBack:panicButtonView];
+        [UIView commitAnimations];
+    }
+    
+    panicButton = NO;
+    
+}
+
+-(void)hidePanicButtonSettings{
+
+    
+    if (panicButton == NO){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:kFLIP_ANIMAMTION_TIME];
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:panicButtonContainerView cache:YES];
+        [panicButtonContainerView sendSubviewToBack:panicButtonSettiingsView];
+        [UIView commitAnimations];
+    }
+    
+    panicButton = YES;
+
+}
+
+
+
+-(void)showTimeoutSettings{
+    
+    
+    if(timeout == YES){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:kFLIP_ANIMAMTION_TIME];
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:timeoutContainerView cache:YES];
+        [timeoutContainerView sendSubviewToBack:timeoutView];
+        [UIView commitAnimations];
+    }
+    
+    timeout = NO;
+    
+}
+
+
+-(void)hideTimeoutSettings{
+    
+
+    
+    if(timeout == NO){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:kFLIP_ANIMAMTION_TIME];
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:timeoutContainerView cache:YES];
+        [timeoutContainerView sendSubviewToBack:timeoutSetiingsView];
+        [UIView commitAnimations];
+    }
+    
+    timeout = YES;
+    
+}
+
+
+
+#pragma mark -
+#pragma mark Text Field Delegate Methods
+#pragma mark -
+
+- (IBAction)textFieldReturn:(UITextField *)sender {
+    
+    [sender resignFirstResponder];
+}
+
+
+-(BOOL) textFieldShouldReturn: (UITextField *) textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+    
+
+    
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    //NSLog(@"textFieldDidBeginEditing");
+    [self moveForKeyboardView:timeoutContainerView up:YES];
+    
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    //NSLog(@"textFieldDidEndEditing");
+    [self moveForKeyboardView:timeoutContainerView up:NO];
+
+}
+
+
+-(void)moveForKeyboardView:(UIView*)view up:(BOOL)up
+{
+    const int movementDistance = -130; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    int movement = (up ? movementDistance : -movementDistance);
+    
+    [UIView beginAnimations: @"moveForKeyboardView" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+
 
 
 @end

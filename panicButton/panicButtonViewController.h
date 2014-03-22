@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface panicButtonViewController : UIViewController
+#define kFLIP_ANIMAMTION_TIME 0.8
 
+
+@interface panicButtonViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
+
+    @property (weak, nonatomic) IBOutlet UIView *panicButtonContainerView;
+    @property (weak, nonatomic) IBOutlet UIView *panicButtonView;
+    @property (weak, nonatomic) IBOutlet UIView *panicButtonSettiingsView;
+
+    @property (weak, nonatomic) IBOutlet UIView *timeoutContainerView;
+    @property (weak, nonatomic) IBOutlet UIView *timeoutSetiingsView;
+    @property (weak, nonatomic) IBOutlet UIView *timeoutView;
+
+
+    
 @end
 
