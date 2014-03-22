@@ -13,6 +13,9 @@
 
 @interface panicButtonViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
 
+    @property (retain, nonatomic) NSTimer * countdownTimer;
+    @property (nonatomic) int remainingTicks;
+
     @property (weak, nonatomic) IBOutlet UIView *panicButtonContainerView;
     @property (weak, nonatomic) IBOutlet UIView *panicButtonView;
     @property (weak, nonatomic) IBOutlet UIView *panicButtonSettiingsView;
@@ -20,6 +23,10 @@
     @property (weak, nonatomic) IBOutlet UIView *timeoutContainerView;
     @property (weak, nonatomic) IBOutlet UIView *timeoutSetiingsView;
     @property (weak, nonatomic) IBOutlet UIView *timeoutView;
+
+    @property (weak, nonatomic) IBOutlet UIDatePicker *timeCounterDatePicker;
+    @property (weak, nonatomic) IBOutlet UILabel *timeoutCountLabel;
+
 
 
     

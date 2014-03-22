@@ -23,6 +23,7 @@
     
 @synthesize panicButtonContainerView, panicButtonView, panicButtonSettiingsView;
 @synthesize timeoutContainerView, timeoutView, timeoutSetiingsView;
+@synthesize timeCounterDatePicker, timeoutCountLabel, countdownTimer, remainingTicks;
 @synthesize panicButton, timeout;
 
 
@@ -58,6 +59,8 @@
     timeout = YES;
     
     [self initializeSwipeActions];
+    [self initializeTimeoutDatePicker];
+    
     
 }
 
@@ -90,6 +93,69 @@
     
     
 }
+
+
+#pragma mark -
+#pragma mark  Action Buttons Methods
+#pragma mark -
+
+
+- (IBAction)startTimeout:(UIButton *)sender {
+    
+
+    
+    NSString *selectionString = [[NSString alloc]
+                                 initWithFormat:@"%@",
+                                 [timeCounterDatePicker date]];
+    timeoutCountLabel.text = selectionString;
+    
+    
+    NSLog(@"%@",selectionString);
+    
+    
+    [self initTimer];
+    
+}
+
+
+#pragma mark -
+#pragma mark  Timeout Methods
+#pragma mark -
+
+
+-(void)initTimer{
+    
+    if (countdownTimer)
+        return;
+    
+    
+    remainingTicks = 60;
+    [self updateTimeoutLabel];
+    
+    countdownTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: YES];
+    
+}
+
+
+-(void)handleTimerTick
+{
+    remainingTicks--;
+    [self updateTimeoutLabel];
+    
+    if (remainingTicks <= 0) {
+        [countdownTimer invalidate];
+        countdownTimer = nil;
+    }
+}
+
+-(void)updateTimeoutLabel
+{
+    timeoutCountLabel.text = [[NSNumber numberWithUnsignedInt: remainingTicks] stringValue];
+}
+
+
+
+
    
 #pragma mark -
 #pragma mark Swipe Action Methods
@@ -198,6 +264,21 @@
     
 }
 
+#pragma mark -
+#pragma mark Date Picker Delegate Methods
+#pragma mark -
+
+
+
+
+-(void)initializeTimeoutDatePicker{
+    
+    [timeCounterDatePicker setCountDownDuration:(60 * 30)];
+
+}
+
+
+
 
 
 #pragma mark -
@@ -232,8 +313,8 @@
 
 -(void)moveForKeyboardView:(UIView*)view up:(BOOL)up
 {
-    const int movementDistance = -130; // tweak as needed
-    const float movementDuration = 0.3f; // tweak as needed
+    const int movementDistance = -130;
+    const float movementDuration = 0.3f;
     
     int movement = (up ? movementDistance : -movementDistance);
     
