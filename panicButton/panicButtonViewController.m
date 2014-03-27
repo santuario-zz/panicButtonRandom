@@ -102,18 +102,10 @@
 
 - (IBAction)startTimeout:(UIButton *)sender {
     
-
-    
-    NSString *selectionString = [[NSString alloc]
-                                 initWithFormat:@"%@",
-                                 [timeCounterDatePicker date]];
-    timeoutCountLabel.text = selectionString;
-    
-    
-    NSLog(@"%@",selectionString);
-    
-    
     [self initTimer];
+    
+    
+    [self getTimerCount];
     
 }
 
@@ -121,6 +113,23 @@
 #pragma mark -
 #pragma mark  Timeout Methods
 #pragma mark -
+
+
+-(void)getTimerCount{
+    
+    
+    NSTimeInterval duration = timeCounterDatePicker.countDownDuration;
+    int hours = (int)(duration/3600.0f);
+    int minutes = ((int)duration - (hours * 3600))/60;
+    
+    
+    NSLog(@"TIME = %d | %d", hours, minutes);
+
+    
+    
+    
+}
+
 
 
 -(void)initTimer{
@@ -273,7 +282,8 @@
 
 -(void)initializeTimeoutDatePicker{
     
-    [timeCounterDatePicker setCountDownDuration:(60 * 30)];
+    [timeCounterDatePicker setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    [timeCounterDatePicker setCountDownDuration:(30 * 60)];
 
 }
 
