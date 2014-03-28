@@ -18,6 +18,13 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
  */
 
 #import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
+
+#define kUpdateCountdownTimer @"kUpdateCountdownTimer"
+#define kFinalizeCountdownTimer @"kFinalizeCountdownTimer"
+
 
 @interface panicButtonUser : NSObject
 
@@ -26,6 +33,12 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 
 -(BOOL)checkIfUserIsRegistered;
 -(void)registerNewUser;
+-(void)initTimerWithDuration:(NSTimeInterval)timeInterval;
+-(void)killCountdown;
+-(void)playAlarmSound;
+-(void)stopAlarmSoud;
+
+
 
 +(id)sharedPanicButtonUser;
 
@@ -38,6 +51,9 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 @property (nonatomic) BOOL panicButtonEnable;
 @property (nonatomic) BOOL timeOutEnable;
 @property (nonatomic) BOOL userExist;
+
+@property (retain, nonatomic) NSTimer * countdownTimer;
+@property (nonatomic) int remainingTicks;
 
 
 @end

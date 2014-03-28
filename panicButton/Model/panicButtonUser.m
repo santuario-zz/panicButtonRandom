@@ -8,11 +8,17 @@
 
 #import "panicButtonUser.h"
 
-@interface panicButtonUser()
+@interface panicButtonUser(){
+    SystemSoundID mBeep;
+    AVAudioPlayer *audioPlayer;
+}
+
 @property (nonatomic, strong) NSMutableArray *contacts;
 @end
 
 @implementation panicButtonUser
+
+@synthesize countdownTimer, remainingTicks;
 
 
 #pragma mark -
@@ -138,6 +144,131 @@
                                                    inDomains:NSUserDomainMask] lastObject];
 }
 
+
+
+#pragma mark -
+#pragma mark Timer Methods
+#pragma mark -
+
+
+
+-(void)initTimerWithDuration:(NSTimeInterval)timeInterval{
+    
+    
+    int hours = (int)(timeInterval/3600.0f);
+    int minutes = ((int)timeInterval - (hours * 3600))/60;
+    
+    
+    //NSLog(@"PANIC BUTTON TIME = %f ::: %d  | %d", timeInterval, hours, minutes);
+    
+    
+    
+    
+    if (countdownTimer)
+        return;
+    
+    remainingTicks = timeInterval;
+    [self updateTimeout];
+    
+    countdownTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: YES];
+    
+}
+
+
+-(void)handleTimerTick
+{
+
+    remainingTicks--;
+    [self updateTimeout];
+    
+    if (remainingTicks <= 0) {
+        [countdownTimer invalidate];
+        countdownTimer = nil;
+        [self playAlarmSound];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFinalizeCountdownTimer object:[NSString stringWithFormat:@"00:00"]];
+
+    }
+    
+    
+    
+}
+
+-(void)updateTimeout{
+    
+   // NSLog(@"INIT TIMER :: updateTimeout :: %d", remainingTicks);
+    int hours = (int)(remainingTicks/3600.0f);
+    int minutes = ((int)remainingTicks - (hours * 3600))/60;
+    
+    
+    NSLog(@"PANIC BUTTON TIME = %d ::: %d  | %d", remainingTicks, hours, minutes);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateCountdownTimer object:[NSString stringWithFormat:@"%d",remainingTicks]];
+
+}
+
+
+-(void)killCountdown{
+    
+    [countdownTimer invalidate];
+    countdownTimer = nil;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFinalizeCountdownTimer object:[NSString stringWithFormat:@"00:00"]];
+}
+
+-(void)playAlarmSound{
+    
+    [self playSoundFXnamed:@"alarm.mp3" Loop: YES];
+    /*
+    
+    // Create the sound ID
+    NSString* path = [[NSBundle mainBundle]
+                      pathForResource:@"beep" ofType:@"aiff"];
+    NSURL* url = [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &mBeep);
+    
+    // Play the sound
+    AudioServicesPlaySystemSound(mBeep);
+     */
+
+}
+
+-(void)stopAlarmSoud{
+    
+    
+    // Dispose of the sound
+    //AudioServicesDisposeSystemSoundID(mBeep);
+    
+    [audioPlayer stop];
+}
+
+-(BOOL) playSoundFXnamed: (NSString*) vSFXName Loop: (BOOL) vLoop
+{
+    NSError *error;
+    
+    NSBundle* bundle = [NSBundle mainBundle];
+    
+    NSString* bundleDirectory = (NSString*)[bundle bundlePath];
+    
+    NSURL *url = [NSURL fileURLWithPath:[bundleDirectory stringByAppendingPathComponent:vSFXName]];
+    
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    
+    if(vLoop)
+        audioPlayer.numberOfLoops = -1;
+    else
+        audioPlayer.numberOfLoops = 0;
+    
+    BOOL success = YES;
+    
+    if (audioPlayer == nil)
+    {
+        success = NO;
+    }
+    else
+    {
+        success = [audioPlayer play];
+    }
+    return success;
+}
 
 
 @end

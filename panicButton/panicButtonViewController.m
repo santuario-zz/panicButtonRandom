@@ -23,7 +23,7 @@
     
 @synthesize panicButtonContainerView, panicButtonView, panicButtonSettiingsView;
 @synthesize timeoutContainerView, timeoutView, timeoutSetiingsView;
-@synthesize timeCounterDatePicker, timeoutCountLabel, countdownTimer, remainingTicks;
+@synthesize timeCounterDatePicker, timeoutCountLabel, handleTimeCounterButton;
 @synthesize panicButton, timeout;
 
 
@@ -58,10 +58,29 @@
     panicButton = YES;
     timeout = YES;
     
+    [self initializeNotificationCenter];
     [self initializeSwipeActions];
     [self initializeTimeoutDatePicker];
     
     
+}
+
+
+-(void)initializeNotificationCenter{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTimeoutCounter:)
+                                                 name:kUpdateCountdownTimer
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(finalizeCountdown:)
+                                                 name:kFinalizeCountdownTimer
+                                               object:nil];
+
+
+
+
 }
 
 -(void)initPanicButtonApp
@@ -102,10 +121,17 @@
 
 - (IBAction)startTimeout:(UIButton *)sender {
     
-    [self initTimer];
     
+    if (sender.isSelected) {
+        [self killCountDown];
+        [[panicButtonUser sharedPanicButtonUser] stopAlarmSoud]; // FIX THIS
+
+        
+    }else{
+        [self initCountdown];
+
+    }
     
-    [self getTimerCount];
     
 }
 
@@ -116,54 +142,61 @@
 
 
 -(void)getTimerCount{
-    
-    
-    NSTimeInterval duration = timeCounterDatePicker.countDownDuration;
-    int hours = (int)(duration/3600.0f);
-    int minutes = ((int)duration - (hours * 3600))/60;
-    
-    
-    NSLog(@"TIME = %d | %d", hours, minutes);
 
-    
-    
-    
+    [[panicButtonUser sharedPanicButtonUser] initTimerWithDuration:timeCounterDatePicker.countDownDuration];
+
 }
 
 
 
--(void)initTimer{
-    
-    if (countdownTimer)
-        return;
-    
-    
-    remainingTicks = 60;
-    [self updateTimeoutLabel];
-    
-    countdownTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: YES];
-    
-}
 
 
--(void)handleTimerTick
+
+-(void)updateTimeoutCounter:(NSNotification *)notification
 {
-    remainingTicks--;
-    [self updateTimeoutLabel];
+    handleTimeCounterButton.selected = YES;
+    timeCounterDatePicker.alpha = 0.0;
+    timeoutCountLabel.alpha = 1.0;
+    timeoutCountLabel.text = [NSString stringWithFormat:@"%@",[notification object]];
+}
+
+
+-(void)initCountdown{
     
-    if (remainingTicks <= 0) {
-        [countdownTimer invalidate];
-        countdownTimer = nil;
-    }
+    handleTimeCounterButton.selected = YES;
+    [UIView beginAnimations: @"initCountdown" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: 0.3];
+    timeCounterDatePicker.alpha = 0.0;
+    timeoutCountLabel.alpha = 1.0;
+    [UIView commitAnimations];
+    
+    
+    [self getTimerCount];
+
+    
 }
 
--(void)updateTimeoutLabel
-{
-    timeoutCountLabel.text = [[NSNumber numberWithUnsignedInt: remainingTicks] stringValue];
+-(void)finalizeCountdown:(NSNotification *)notification{
+    
+    
+    handleTimeCounterButton.selected = NO;
+
+    
+    [UIView beginAnimations: @"finalizeCountdown" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: 0.3];
+    timeCounterDatePicker.alpha = 1.0;
+    timeoutCountLabel.alpha = 0.0;
+    [UIView commitAnimations];
+    
+    
 }
 
+-(void)killCountDown{
+    [[panicButtonUser sharedPanicButtonUser] killCountdown];
 
-
+}
 
    
 #pragma mark -
@@ -281,6 +314,12 @@
 
 
 -(void)initializeTimeoutDatePicker{
+    
+    
+    
+    timeCounterDatePicker.alpha = 1.0;
+    timeoutCountLabel.alpha = 0.0;
+    
     
     [timeCounterDatePicker setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     [timeCounterDatePicker setCountDownDuration:(30 * 60)];
