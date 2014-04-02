@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface panicButtonAddContactViewController : UIViewController
+
+@interface panicButtonAddContactViewController : UIViewController <ABPeoplePickerNavigationControllerDelegate>
+
+
+@property (weak, nonatomic) IBOutlet UITextField *nameNewContactTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailNewContactTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneNewContactTextField;
+
+
 
 @end

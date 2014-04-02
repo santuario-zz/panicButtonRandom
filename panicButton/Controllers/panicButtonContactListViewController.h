@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "panicButtonUser.h"
 
-@interface panicButtonContactListViewController : UIViewController
+
+@interface panicButtonContactListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+
+
 
 @end

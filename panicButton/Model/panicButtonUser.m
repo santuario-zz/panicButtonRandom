@@ -13,12 +13,12 @@
     AVAudioPlayer *audioPlayer;
 }
 
-@property (nonatomic, strong) NSMutableArray *contacts;
 @end
 
 @implementation panicButtonUser
 
 @synthesize countdownTimer, remainingTicks;
+
 
 
 #pragma mark -
@@ -27,7 +27,7 @@
 
 // Lazy instantiation of Contacts Array
 -(NSMutableArray *) contacts{
-    if(!_contacts) _contacts = [[NSMutableArray alloc] init];
+    if(!_contacts) _contacts = [[NSMutableArray alloc] initWithObjects:@"Rafiki",@"Arthur",@"Robert", nil]; // FIX ME
     return _contacts;
 }
 
@@ -155,8 +155,8 @@
 -(void)initTimerWithDuration:(NSTimeInterval)timeInterval{
     
     
-    int hours = (int)(timeInterval/3600.0f);
-    int minutes = ((int)timeInterval - (hours * 3600))/60;
+    //int hours = (int)(timeInterval/3600.0f);
+    //int minutes = ((int)timeInterval - (hours * 3600))/60;
     
     
     //NSLog(@"PANIC BUTTON TIME = %f ::: %d  | %d", timeInterval, hours, minutes);

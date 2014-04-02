@@ -47,6 +47,8 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 @property (nonatomic, strong) NSString *userEmail;
 @property (nonatomic, strong) NSString *userNumber;
 
+@property (nonatomic, strong) NSMutableArray *contacts;
+
 
 @property (nonatomic) BOOL panicButtonEnable;
 @property (nonatomic) BOOL timeOutEnable;
