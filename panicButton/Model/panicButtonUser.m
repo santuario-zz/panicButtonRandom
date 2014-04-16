@@ -271,4 +271,15 @@
 }
 
 
+
+#pragma mark -
+#pragma mark Bluetooth Methods
+#pragma mark -
+
+-(void)initBluettothConnection{
+    
+}
+
+
+
 @end
