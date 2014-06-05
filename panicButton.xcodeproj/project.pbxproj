@@ -273,6 +273,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "3π";
 				TargetAttributes = {
+					E42AECC418D12C5100008BE5 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					E42AECE518D12C5100008BE5 = {
 						TestTargetID = E42AECC418D12C5100008BE5;
 					};
