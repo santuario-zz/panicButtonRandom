@@ -200,6 +200,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "3π";
 				TargetAttributes = {
+					E4F3CA8119412F73003AE595 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					E4F3CAA219412F73003AE595 = {
 						TestTargetID = E4F3CA8119412F73003AE595;
 					};
@@ -465,6 +472,7 @@
 				E4F3CAB619412F73003AE595 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4F3CAB719412F73003AE595 /* Build configuration list for PBXNativeTarget "bluetoothConecterTests" */ = {
 			isa = XCConfigurationList;
@@ -473,6 +481,7 @@
 				E4F3CAB919412F73003AE595 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
