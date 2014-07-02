@@ -20,13 +20,20 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 
 #define kUpdateCountdownTimer @"kUpdateCountdownTimer"
 #define kFinalizeCountdownTimer @"kFinalizeCountdownTimer"
 
 
-@interface panicButtonUser : NSObject
+
+@interface panicButtonUser : NSObject <CLLocationManagerDelegate>{
+
+    
+}
+
+
 
 
 -(instancetype)initWithUserID:(NSUInteger)usrID;
@@ -37,6 +44,8 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 -(void)killCountdown;
 -(void)playAlarmSound;
 -(void)stopAlarmSoud;
+-(void)initLocationManager;
+
 
 
 
@@ -56,6 +65,14 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 
 @property (retain, nonatomic) NSTimer * countdownTimer;
 @property (nonatomic) int remainingTicks;
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSMutableArray *locations;
+@property (nonatomic) BOOL locationUpdateEnabled;
+
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
+
+
 
 
 @end

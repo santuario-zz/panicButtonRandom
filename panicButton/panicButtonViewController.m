@@ -110,6 +110,9 @@
     }
     
     
+    [[panicButtonUser sharedPanicButtonUser] initLocationManager];
+    
+    
     
 }
 

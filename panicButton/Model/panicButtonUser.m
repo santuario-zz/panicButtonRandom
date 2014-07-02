@@ -32,6 +32,12 @@
 }
 
 
+-(NSMutableArray *) locations{
+    if(!_locations) _locations = [[NSMutableArray alloc] init];
+    return _locations;
+}
+
+
 #pragma mark -
 #pragma mark Singleton Methods/Users/santuario/Documents/iOS/Random/panicButton/panicButton/Model/panicButtonUser.h
 #pragma mark -
@@ -155,6 +161,8 @@
 -(void)initTimerWithDuration:(NSTimeInterval)timeInterval{
     
     
+    self.backgroundTask = UIBackgroundTaskInvalid;
+    
     //int hours = (int)(timeInterval/3600.0f);
     //int minutes = ((int)timeInterval - (hours * 3600))/60;
     
@@ -172,7 +180,15 @@
     
     countdownTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: YES];
     
+    
+    self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        NSLog(@"Background handler called. Not running background tasks anymore.");
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }];
+    
 }
+
 
 
 -(void)handleTimerTick
@@ -186,6 +202,12 @@
         countdownTimer = nil;
         [self playAlarmSound];
         [[NSNotificationCenter defaultCenter] postNotificationName:kFinalizeCountdownTimer object:[NSString stringWithFormat:@"00:00"]];
+        
+        if (self.backgroundTask != UIBackgroundTaskInvalid)
+        {
+            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+            self.backgroundTask = UIBackgroundTaskInvalid;
+        }
 
     }
     
@@ -212,6 +234,11 @@
     [countdownTimer invalidate];
     countdownTimer = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kFinalizeCountdownTimer object:[NSString stringWithFormat:@"00:00"]];
+    if (self.backgroundTask != UIBackgroundTaskInvalid)
+    {
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }
 }
 
 -(void)playAlarmSound{
@@ -279,6 +306,77 @@
 -(void)initBluettothConnection{
     
 }
+
+
+
+#pragma mark -
+#pragma mark Location Manager Methods
+#pragma mark -
+
+-(void)initLocationManager{
+    
+    //self.locations;
+    self.locationUpdateEnabled = YES;
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.delegate = self;
+    
+    
+    const CLLocationAccuracy accuracyValues[] = {
+        kCLLocationAccuracyBestForNavigation,
+        kCLLocationAccuracyBest,
+        kCLLocationAccuracyNearestTenMeters,
+        kCLLocationAccuracyHundredMeters,
+        kCLLocationAccuracyKilometer,
+        kCLLocationAccuracyThreeKilometers};
+    
+    
+    self.locationManager.desiredAccuracy = accuracyValues[0]; // FIX ME
+    
+    
+    [self enabledStateLocationChanged];
+    
+    
+    
+    
+}
+
+
+-(void)enabledStateLocationChanged{
+    
+    if (self.locationUpdateEnabled)
+    {
+        [self.locationManager startUpdatingLocation];
+    }
+    else
+    {
+        [self.locationManager stopUpdatingLocation];
+    }
+}
+
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+
+    [self.locations addObject:newLocation];
+    
+    // Remove values if the array is too big
+    while (self.locations.count > 100)
+    {
+        [self.locations removeObjectAtIndex:0];
+    }
+    
+    if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive)
+    {
+        //NSLog(@"App active. New location is %@", newLocation);
+    }
+    else
+    {
+        //NSLog(@"App is backgrounded. New location is %@", newLocation);
+    }
+}
+
 
 
 
