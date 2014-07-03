@@ -169,6 +169,15 @@
     
     //NSLog(@"PANIC BUTTON TIME = %f ::: %d  | %d", timeInterval, hours, minutes);
     
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    //localNotification.fireDate = pickerDate;
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
+    localNotification.alertBody = @"Countdown Timer";
+    localNotification.alertAction = @"desactivar el Timer";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
     
     

@@ -57,6 +57,8 @@
     
     panicButton = YES;
     timeout = YES;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
     
     [self initializeNotificationCenter];
     [self initializeSwipeActions];
