@@ -29,6 +29,7 @@
 		E480B75D18E500430033BDFA /* beep.aiff in Resources */ = {isa = PBXBuildFile; fileRef = E480B75C18E500430033BDFA /* beep.aiff */; };
 		E480B75F18E502E10033BDFA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E480B75E18E502E10033BDFA /* AVFoundation.framework */; };
 		E480B76118E5047F0033BDFA /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E480B76018E5047F0033BDFA /* alarm.mp3 */; };
+		E4ABE605196738BE00242EC8 /* panicButtonWatchersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */; };
 		E4CD1FC5196381940056E032 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4CD1FC4196381940056E032 /* CoreLocation.framework */; };
 		E4E6CEC218D139E200585760 /* panicButtonAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6CEC118D139E200585760 /* panicButtonAboutViewController.m */; };
 		E4E6CEC518D139F500585760 /* panicButtonAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6CEC418D139F500585760 /* panicButtonAccountViewController.m */; };
@@ -79,6 +80,8 @@
 		E480B75C18E500430033BDFA /* beep.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = beep.aiff; sourceTree = "<group>"; };
 		E480B75E18E502E10033BDFA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E480B76018E5047F0033BDFA /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
+		E4ABE603196738BE00242EC8 /* panicButtonWatchersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonWatchersTableViewCell.h; path = Controllers/panicButtonWatchersTableViewCell.h; sourceTree = "<group>"; };
+		E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = panicButtonWatchersTableViewCell.m; path = Controllers/panicButtonWatchersTableViewCell.m; sourceTree = "<group>"; };
 		E4CD1FC4196381940056E032 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E4E6CEC018D139E200585760 /* panicButtonAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonAboutViewController.h; path = Controllers/panicButtonAboutViewController.h; sourceTree = "<group>"; };
 		E4E6CEC118D139E200585760 /* panicButtonAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = panicButtonAboutViewController.m; path = Controllers/panicButtonAboutViewController.m; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 				E42AED0618D133CB00008BE5 /* panicButtonContactListViewController.m */,
 				E46E1CF318DD139C00CD28F5 /* panicButtonAddContactViewController.h */,
 				E46E1CF418DD139C00CD28F5 /* panicButtonAddContactViewController.m */,
+				E4ABE603196738BE00242EC8 /* panicButtonWatchersTableViewCell.h */,
+				E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4ABE605196738BE00242EC8 /* panicButtonWatchersTableViewCell.m in Sources */,
 				E4E6CEC818D13FC800585760 /* panicButtonUser.m in Sources */,
 				E4E6CEC518D139F500585760 /* panicButtonAccountViewController.m in Sources */,
 				E42AED0118D12F1500008BE5 /* panicButtonSignUpViewController.m in Sources */,

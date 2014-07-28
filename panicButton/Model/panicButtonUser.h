@@ -22,13 +22,24 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-
+#define kAppName @"PANIKBTTN"
 #define kUpdateCountdownTimer @"kUpdateCountdownTimer"
+#define kUpdateContactListTableView @"kUpdateContactListTableView"
+
 #define kFinalizeCountdownTimer @"kFinalizeCountdownTimer"
+#define kBackendGeneralURL @"http://panicbutton.randominteractive.net/"
+
+// Backend Services
+
+#define kUserRegistrationBackdroundService @"userRegistration"
+#define kUserConfirmationBackdroundService @"userConfirmation"
+#define kContactGetBackdroundService @"contactGet"
+#define kContactAddBackdroundService @"contactAdd"
+#define kContactRemoveBackdroundService @"contactRemove"
 
 
 
-@interface panicButtonUser : NSObject <CLLocationManagerDelegate>{
+@interface panicButtonUser : NSObject <CLLocationManagerDelegate, NSURLConnectionDelegate, UIAlertViewDelegate>{
 
     
 }
@@ -39,7 +50,8 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 -(instancetype)initWithUserID:(NSUInteger)usrID;
 
 -(BOOL)checkIfUserIsRegistered;
--(void)registerNewUser;
+-(void)registerNewUserWithName:(NSString*)name email:(NSString*)email andPhone:(NSString*)phone;
+-(void)registerNewUserContactInBackendWithName:(NSString*)contactName email:(NSString*)contactEmail andPhone:(NSString*)contactPhone withLowBatAlert:(bool)lowBatAlert andOffRangeAlert:(bool)offRageAlert;
 -(void)initTimerWithDuration:(NSTimeInterval)timeInterval;
 -(void)killCountdown;
 -(void)playAlarmSound;
@@ -48,15 +60,12 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 
 
 
-
 +(id)sharedPanicButtonUser;
 
-@property (nonatomic, strong) NSString *userID;
-@property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSString *userEmail;
-@property (nonatomic, strong) NSString *userNumber;
+
 
 @property (nonatomic, strong) NSMutableArray *contacts;
+@property (nonatomic, strong) NSMutableDictionary *userData;
 
 
 @property (nonatomic) BOOL panicButtonEnable;

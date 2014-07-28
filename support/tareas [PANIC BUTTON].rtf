@@ -1,9 +1,10 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf200
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Light;\f2\fswiss\fcharset0 ArialMT;
-}
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Light;\f2\fnil\fcharset0 Menlo-Bold;
+\f3\fswiss\fcharset0 ArialMT;}
 {\colortbl;\red255\green255\blue255;\red164\green8\blue0;\red63\green105\blue30;\red201\green113\blue0;
-\red85\green142\blue40;\red26\green26\blue26;\red16\green60\blue192;}
-\margl1440\margr1440\vieww16060\viewh12840\viewkind0
+\red85\green142\blue40;\red26\green26\blue26;\red62\green0\blue63;\red16\green60\blue192;\red45\green101\blue22;
+\red190\green0\blue4;}
+\margl1440\margr1440\vieww15980\viewh13640\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
 
 \f0\b\fs72 \cf0 Panic Button\
@@ -57,97 +58,151 @@ http://code.tutsplus.com/tutorials/ios-7-sdk-multitasking-enhancements--mobile-2
 http://www.raywenderlich.com/66584/ios7-ibeacons-tutorial\
 \
 \
+http://www.appcoda.com/tutorials/\
+\
 \
 \pard\pardeftab720
 
-\f2\fs26 \cf6 PANIC BUTTON BACKEND V1 API\
+\f0\b\fs72 \cf6 VARIABLES BACKEND V1 API\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f1\b0\fs28 \cf0 \
 \
-*Registration\
-	parametros request\
-		+fullname:String [full name] (nombre completo)\
-		+email:String [e-mail] (correo electronico checado)\
-		+country:Number [pais] (codigo de pais)\
-		+phone:Number [mobile number 10 digits] (numero mobil)\
-		-model:String [device model] (ie: iPhone5,GalaxyS2)\
-		-os:String [device operating system] (ie: 4,4,2)\
-		-serial:String [device id] (udid caso iphone, serie caso android)\
-	parametros response (exito)\
-		+uid:Number [User ID]\
-	\
+USER\
 \
-*Contact List\
-	parametros request\
-		+uid:String [User ID]\
-	parametros response (exito)\
-		+contacts:Array of Objects\
-	\
-*Contact Add (N)\'a0\
-	parametros request\
-		+fullname:String [full name] (nombre completo)\
-		+email:String [e-mail] (correo electronico checado)\
-		+country:Number [pais] (codigo de pais)\
-		+phone:Number [mobile number 10 digits] (numero mobil)\
-	parametros response (success)\
-		+cid:Number [Contact ID]\
-		\
-*Contact Remove (N)\'a0\
-	parametros request\
-		+cid:Number [Contact ID]\
-	parametros response (exito)\
-		+success:Boolean [true | false]\
-		\
-*status ( TO BE DEFINED )\
-	-alert:Boolean\
-	-latitude:String\
-	-longitude:String\
-	-timestamp:DateTime\
-	\
------------------------------------------------------------------------------\
-	\
-General URL\
+userName\
+\
+userEmail\
+\
+userPhone\
+\
+userSession\
+\
+userCountryID\
+\
+userDeviceModel\
+\
+userOS\
+\
+userID\
+\
+CONTACTS\
+\
+userContactName\
+\
+userContactEmail\
+\
+userContactPhone\
+\
+userContact\cf6 ReceivesLowBatAlert\
+\
+\cf0 userContactR\cf6 eceivesOffRangeAlert\
+\
+\cf0 userContactID\
+\
+\
+\{"userName":"","userEmail":"","userPhone":"","userSession":"","userCountryID":"","userDeviceModel":"","userOS":"","userID":"","userContacts":[\{"userContactID":"","userContactName":"","userContactEmail":"","userContactPhone":"","userContactReceivesLowBatAlert":"","userContactReceivesOffRangeAlert":""\}]\}\
+\
+\
+\
 \pard\pardeftab720
-{\field{\*\fldinst{HYPERLINK "http://panicbutton.randominteractive.net/"}}{\fldrslt \cf7 \ul \ulc7 http://panicbutton.randominteractive.net/}}\
+
+\f0\b\fs72 \cf6 PANIC BUTTON BACKEND V1 API\
+\pard\pardeftab720
+
+\b0\fs26 \cf6 \
+
+\f1\fs28 \
+Los siguientes servicios ya estan funcionando, puedes comenzar a integrarlos, algunos cambiaron de nombre debido a que ciertos nombres de metodos son palabras reservadas (como List para el caso de contact->list) en PHP,\
+\
+- Los parametros deben ir como se muestran, todos son obligatorios y en el formato mostrado (string/number).\
+- Los datos de respuesta tambien se envian al cliente como se muestra en los ejemplos.\
+- Dependiendo del servicio, puede arrojar errores en el formato general mostrado al final.\
+- la variable session de retorno por el momento no se ocupa pero la intencion es usarla como control de acceso adicional a otros mecanismos. (encripcion en la transmision de todos los datos proximamente)\
+- para el registro de usuarios y contactos, no puedes usar el mismo numero de mobil, necesitaras usar numeros dummy.\
+- la variable uid es el identificador unico de cada usuario, asi mismo aplica para contacto y todos los demas objetos de negocio, la idea es que al momento de que te registres te envie un SMS con un codigo de confirmacion que deberas ingresar a la app, con ese codigo y el uid llamas otro metodo para confirmar y activar para regresarte tu la llave de session que te permitira hacer peticiones a los demas servicios.. o algo asi, por el momento puedes usar los metodos como se muestran con la variable de session dummy.\
+\
+URL GENERAL\
+\
+\pard\pardeftab720
+\cf7 General URL\
+\pard\pardeftab720
+{\field{\*\fldinst{HYPERLINK "http://panicbutton.randominteractive.net/"}}{\fldrslt \cf8 \ul \ulc8 http://\ulnone panicbutton\ul .randominteractive.net/}}\
 \
 Full Request\
 \pard\pardeftab720
-{\field{\*\fldinst{HYPERLINK "http://panicbutton.randominteractive.net/index.php?r=app/index&data=%7B"}}{\fldrslt \cf7 \ul \ulc7 http://panicbutton.randominteractive.net/index.php?r=app/index&data=\{}}"service":"registration","data":\{\}\}\
+{\field{\*\fldinst{HYPERLINK "http://panicbutton.randominteractive.net/index.php?r=app/index&data=%7B"}}{\fldrslt \cf8 \ul \ulc8 http://\ulnone panicbutton\ul .randominteractive.net/index.php?r=app/index&data=\{}}\cf6 "service":"<service name>","data":\{\}\}\
 \
------------------------------------------------------------------------------\
-\
-Registration\
-\
-Request\
-index.php?r=app/index&data=\{"service":"registration","data":\{"fullname":"Rafael Ayala","email":"{\field{\*\fldinst{HYPERLINK "mailto:rhomo@gmail.com"}}{\fldrslt \cf7 \ul \ulc7 rhomo@gmail.com}}","country":52,"phone":5543362777,"model":"iphone4,2","os":"7,1","serial":"AAAAAAAAAAAAAAAAAAAAAAAAAAA"\}\}\
-\
-Response (OK)\
-\{"status":"OK","service":"register","data":\{"uid":12345675313256489\}\}\
-\
-Contacts List (Check Contact List)\
-\
-Request\
-index.php?r=app/index&data=\{"service":"contactList","data":\{"uid":12345675313256489\}\}\
-\
-Response (OK)\
-\{"status":"OK","service":"contactList","data":\{"contacts":[\{"cid":7545648711321547\},\{"cid":7545648711321547\}]\}\}\
-\
-Contacts Add (Add an Emergency Contact to your List)\
-\
-Request\
-index.php?r=app/index&data=\{"service":"contactAdd","data":\{"name":"Chofas Morrison","email":"{\field{\*\fldinst{HYPERLINK "mailto:chofas@gmail.com"}}{\fldrslt \cf7 \ul \ulc7 chofas@gmail.com}}","country":52,"phone":556581111\}\}\
-\
-Response (OK)\
-\{"status":"OK","service":"contactAdd","data":\{"cid":7545648711321547\}\}\
-\
-Contacts Remove (Add an Emergency Contact to your List)\
-\
-Request\
-index.php?r=app/index&data=\{"service":"contactRemove","data":\{"cid":7545648711321547\}\}\
-\
-Response (OK)\
-\{"status":"OK","service":"contactRemove","data":\{"success":true\}\}\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+User Registration (request)\
+\{"service":"userRegistration","data":\{"fullname":"Rafael Ayala","mobile":"5543362777","email":"{\field{\*\fldinst{HYPERLINK "mailto:rafala@gmail.com"}}{\fldrslt \cf8 \ul \ulc8 rafala@gmail.com}}","country_id":1,"model":"iphone4s","os":"7,1","serial":"5543362777"\}\}
+\f2\b\fs22 \cf0 \CocoaLigature0 \
+\pard\tx529\pardeftab529\pardirnatural
+\cf0 \
 
-\f1\fs28 \cf0 \
+\f1\b0\fs28 \cf6 \CocoaLigature1 \
+\pard\pardeftab720
+\cf6 \
+User Registration (response)\
+\{"service":"userRegistration","status":"OK","data":\{"uid":"0c18d41fb62d794a"\}\}\
+\
+\pard\pardeftab720
+\cf9 User Confirmation (request) NEXT WEEK!\
+\{"service":"userConfirmation","data":\{"uid":"0c18d41fb62d794a","code":"1aB2fG"\}\}\
+\
+User Confirmation (response) NEXT WEEK!\
+\{"service":"userConfirmation","status":"OK","data":\{"session":"12345678ABCDEFGH","message":"you are activated now"\}\}\cf6 \
+\
+Contact Get (request)\
+\{"session":"12345678ABCDEFGH","service":"contactGet","data":\{"uid":"0c18d41fb62d794a"\}\}\
+\
+Contact Get (response)\
+\{"service":"contactGet","status":"OK","data":\{"contacts":[\{"cid":"c9dfc15b5846a83f"\},\{"cid":"c9dfc15byuq6a83f"\}]\}\}\
+\pard\pardeftab720
+\cf0 \
+http://panicbutton.randominteractive.net/index.php?r=app/index&data=\
+\
+\
+\pard\pardeftab720
+\cf6 Contact Add (request)\
+\{"session":"12345678ABCDEFGH","service":"contactAdd","data":\{"uid":"0c18d41fb62d794a","fullname":"Ricardo Ayala","mobile":"5543362111","email":"{\field{\*\fldinst{HYPERLINK "mailto:ricardo@gmail.com"}}{\fldrslt \cf8 \ul \ulc8 ricardo@gmail.com}}","receivesLowBatAlert":0,"receivesOffRangeAlert":0\}\}\
+\
+Contact Add (response)\
+\{"service":"contactAdd","status":"OK","data":\{"cid":"c9dfc15b5846a83f"\}\}\
+\
+Contact Remove (request)\
+\{"session":"12345678ABCDEFGH","service":"contactRemove","data":\{"uid":"0c18d41fb62d794a","cid":"cda97e3493526aae"\}\}\
+\
+Contact Remove (response)\
+\{"session":"12345678ABCDEFGH","service":"contactRemove","status":"OK","data":\{"message":"contact removed"\}\}\
+\
+\pard\pardeftab720
+
+\f3\b\fs26 \cf6 Mini Update, tomorrow = User Confirmation, Timer Get, Timer Set,\'a0
+\b0 \
+
+\b \
+Location Set (request)
+\b0 \
+\pard\pardeftab720
+
+\fs20 \cf6 \{"service":"locationSet","data":\{"uid":"55eec7e4ad056b5a","altitude":"10.01","latitude":"10.01","longitude":"10.01","ipaddress":"127.0.0.1"\}\}
+\fs26 \
+\
+\pard\pardeftab720
+
+\b \cf6 Location Set (request)
+\b0 \
+\{"service":"locationSet","status":"OK","data":\{"lid":"aa5597729e8ebf3f"\}\}\
+\
+\
+\pard\pardeftab720
+
+\f1\fs28 \cf6 \
+\pard\pardeftab720
+\cf10 General Error Message\cf6 \
+\cf10 \{"service":"<service name>","status":"ERROR","data":\{"message":"<message string>"\}\}\
+\
+\
 \
 \
 }

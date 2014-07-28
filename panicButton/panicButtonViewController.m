@@ -57,7 +57,6 @@
     
     panicButton = YES;
     timeout = YES;
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
     
     [self initializeNotificationCenter];
@@ -94,9 +93,6 @@
 */
     
     
-    
-
-    
     if ([[panicButtonUser sharedPanicButtonUser] checkIfUserIsRegistered]) {
         NSLog(@"USUARIO REGISTRADO");
 
@@ -113,7 +109,6 @@
     
     
     [[panicButtonUser sharedPanicButtonUser] initLocationManager];
-    
     
     
 }

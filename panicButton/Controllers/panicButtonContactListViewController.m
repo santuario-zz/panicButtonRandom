@@ -9,6 +9,7 @@
 #import "panicButtonContactListViewController.h"
 
 @interface panicButtonContactListViewController ()
+@property (weak, nonatomic) IBOutlet UITableView *contactListtableView;
 
 @end
 
@@ -36,6 +37,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self initialize];
 }
 
 - (void)didReceiveMemoryWarningfv
@@ -44,6 +46,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
+#pragma mark  Methods
+#pragma mark -
+
+-(void)initialize{
+    
+
+    [self initializeNotificationCenter];
+
+}
+
+
+-(void)initializeNotificationCenter{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadContentTable:)
+                                                 name:kUpdateContactListTableView
+                                               object:nil];
+    
+
+}
 
 
 #pragma mark -
@@ -66,11 +89,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:contactTableIdentifier];
     }
     
-    cell.textLabel.text = [[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row] objectForKey:@"userContactName"];
     return cell;
 }
 
 
+-(void)reloadContentTable:(NSNotification *)notification{
+    
+    [_contactListtableView reloadData];
+}
 
 
 #pragma mark -

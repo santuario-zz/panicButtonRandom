@@ -51,7 +51,7 @@
 
 
 - (IBAction)registerNewUser:(UIButton *)sender {
-    [[panicButtonUser sharedPanicButtonUser] registerNewUser];
+    [[panicButtonUser sharedPanicButtonUser] registerNewUserWithName:self.userNameTextField.text email:self.userEmailTextField.text andPhone:self.userPhoneTextField.text];
 
 }
 

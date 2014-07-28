@@ -7,6 +7,8 @@
 //
 
 #import "panicButtonAddContactViewController.h"
+#import "panicButtonUser.h"
+
 
 @interface panicButtonAddContactViewController ()
 
@@ -57,6 +59,18 @@
     [self presentViewController:picker animated:YES completion:nil];
 
 }
+
+
+
+- (IBAction)addContact:(UIButton *)sender {
+    
+    [[panicButtonUser sharedPanicButtonUser] registerNewUserContactInBackendWithName:_nameNewContactTextField.text email:_emailNewContactTextField.text andPhone:_phoneNewContactTextField.text withLowBatAlert:[_contactReceivesLowBatAlertSwitch isOn] andOffRangeAlert:[_contactReceivesOffRangeAlertSwitch isOn]];
+
+    
+}
+
+
+
 
 #pragma mark -
 #pragma mark Get Contact From Address Book Methods
@@ -138,7 +152,6 @@
 }
 
 
-
 #pragma mark -
 #pragma mark New Contact Methods
 #pragma mark -
@@ -163,5 +176,6 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 @end
