@@ -2,8 +2,8 @@
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Light;\f2\fnil\fcharset0 Menlo-Bold;
 \f3\fswiss\fcharset0 ArialMT;}
 {\colortbl;\red255\green255\blue255;\red164\green8\blue0;\red63\green105\blue30;\red201\green113\blue0;
-\red85\green142\blue40;\red26\green26\blue26;\red62\green0\blue63;\red16\green60\blue192;\red45\green101\blue22;
-\red190\green0\blue4;}
+\red85\green142\blue40;\red26\green26\blue26;\red62\green0\blue63;\red16\green60\blue192;\red253\green165\blue49;
+\red45\green101\blue22;\red190\green0\blue4;}
 \margl1440\margr1440\vieww15980\viewh13640\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
 
@@ -133,47 +133,55 @@ Full Request\
 \pard\pardeftab720
 {\field{\*\fldinst{HYPERLINK "http://panicbutton.randominteractive.net/index.php?r=app/index&data=%7B"}}{\fldrslt \cf8 \ul \ulc8 http://\ulnone panicbutton\ul .randominteractive.net/index.php?r=app/index&data=\{}}\cf6 "service":"<service name>","data":\{\}\}\
 \
-User Registration (request)\
-\{"service":"userRegistration","data":\{"fullname":"Rafael Ayala","mobile":"5543362777","email":"{\field{\*\fldinst{HYPERLINK "mailto:rafala@gmail.com"}}{\fldrslt \cf8 \ul \ulc8 rafala@gmail.com}}","country_id":1,"model":"iphone4s","os":"7,1","serial":"5543362777"\}\}
+\
+\
+\pard\pardeftab720
+\cf9 User Registration (request)\
+\{"service":"userRegistration","data":\{"fullname":"Rafael Ayala","mobile":"5543362777","email":"{\field{\*\fldinst{HYPERLINK "mailto:rafala@gmail.com"}}{\fldrslt \ul \ulc8 rafala@gmail.com}}","country_id":1,"model":"iphone4s","os":"7,1","serial":"5543362777"\}\}
 \f2\b\fs22 \cf0 \CocoaLigature0 \
-\pard\tx529\pardeftab529\pardirnatural
-\cf0 \
+\pard\pardeftab720
 
 \f1\b0\fs28 \cf6 \CocoaLigature1 \
-\pard\pardeftab720
-\cf6 \
 User Registration (response)\
 \{"service":"userRegistration","status":"OK","data":\{"uid":"0c18d41fb62d794a"\}\}\
 \
+\
+\
 \pard\pardeftab720
-\cf9 User Confirmation (request) NEXT WEEK!\
-\{"service":"userConfirmation","data":\{"uid":"0c18d41fb62d794a","code":"1aB2fG"\}\}\
+\cf4 User Confirmation (request) NEXT WEEK!\
+\{"service":"userConfirmation","data":\{"uid":"0c18d41fb62d794a","code":"1aB2fG"\}\}\cf10 \
 \
 User Confirmation (response) NEXT WEEK!\
 \{"service":"userConfirmation","status":"OK","data":\{"session":"12345678ABCDEFGH","message":"you are activated now"\}\}\cf6 \
 \
-Contact Get (request)\
-\{"session":"12345678ABCDEFGH","service":"contactGet","data":\{"uid":"0c18d41fb62d794a"\}\}\
+\
+\
+\pard\pardeftab720
+\cf9 Contact Get (request)\
+\{"session":"12345678ABCDEFGH","service":"contactGet","data":\{"uid":"0c18d41fb62d794a"\}\}\cf6 \
 \
 Contact Get (response)\
 \{"service":"contactGet","status":"OK","data":\{"contacts":[\{"cid":"c9dfc15b5846a83f"\},\{"cid":"c9dfc15byuq6a83f"\}]\}\}\
 \pard\pardeftab720
 \cf0 \
-http://panicbutton.randominteractive.net/index.php?r=app/index&data=\
 \
 \
 \pard\pardeftab720
-\cf6 Contact Add (request)\
-\{"session":"12345678ABCDEFGH","service":"contactAdd","data":\{"uid":"0c18d41fb62d794a","fullname":"Ricardo Ayala","mobile":"5543362111","email":"{\field{\*\fldinst{HYPERLINK "mailto:ricardo@gmail.com"}}{\fldrslt \cf8 \ul \ulc8 ricardo@gmail.com}}","receivesLowBatAlert":0,"receivesOffRangeAlert":0\}\}\
+\cf9 Contact Add (request)\
+\{"session":"12345678ABCDEFGH","service":"contactAdd","data":\{"uid":"0c18d41fb62d794a","fullname":"Ricardo Ayala","mobile":"5543362111","email":"{\field{\*\fldinst{HYPERLINK "mailto:ricardo@gmail.com"}}{\fldrslt \ul \ulc8 ricardo@gmail.com}}","receivesLowBatAlert":0,"receivesOffRangeAlert":0\}\}\cf6 \
 \
 Contact Add (response)\
 \{"service":"contactAdd","status":"OK","data":\{"cid":"c9dfc15b5846a83f"\}\}\
 \
-Contact Remove (request)\
-\{"session":"12345678ABCDEFGH","service":"contactRemove","data":\{"uid":"0c18d41fb62d794a","cid":"cda97e3493526aae"\}\}\
+\
+\
+\cf9 Contact Remove (request)\
+\{"session":"12345678ABCDEFGH","service":"contactRemove","data":\{"uid":"0c18d41fb62d794a","cid":"cda97e3493526aae"\}\}\cf6 \
 \
 Contact Remove (response)\
 \{"session":"12345678ABCDEFGH","service":"contactRemove","status":"OK","data":\{"message":"contact removed"\}\}\
+\
+\
 \
 \pard\pardeftab720
 
@@ -181,26 +189,26 @@ Contact Remove (response)\
 \b0 \
 
 \b \
-Location Set (request)
+\cf3 Location Set (request)
 \b0 \
 \pard\pardeftab720
 
-\fs20 \cf6 \{"service":"locationSet","data":\{"uid":"55eec7e4ad056b5a","altitude":"10.01","latitude":"10.01","longitude":"10.01","ipaddress":"127.0.0.1"\}\}
+\fs20 \cf3 \{"service":"locationSet","data":\{"uid":"55eec7e4ad056b5a","altitude":"10.01","latitude":"10.01","longitude":"10.01","ipaddress":"127.0.0.1"\}\}
 \fs26 \
 \
 \pard\pardeftab720
 
-\b \cf6 Location Set (request)
+\b \cf3 Location Set (request)
 \b0 \
 \{"service":"locationSet","status":"OK","data":\{"lid":"aa5597729e8ebf3f"\}\}\
-\
+\cf6 \
 \
 \pard\pardeftab720
 
 \f1\fs28 \cf6 \
 \pard\pardeftab720
-\cf10 General Error Message\cf6 \
-\cf10 \{"service":"<service name>","status":"ERROR","data":\{"message":"<message string>"\}\}\
+\cf11 General Error Message\cf6 \
+\cf11 \{"service":"<service name>","status":"ERROR","data":\{"message":"<message string>"\}\}\
 \
 \
 \

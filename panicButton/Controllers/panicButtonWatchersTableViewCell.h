@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
-@interface panicButtonWatchersTableViewCell : UITableViewCell
+@interface panicButtonWatchersTableViewCell : SWTableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *watcherNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *watcherPhoneLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *watcherStatusImage;
 
 @end

@@ -34,6 +34,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self initialize];
 
 
 }
@@ -46,6 +47,20 @@
 
 
 #pragma mark -
+#pragma mark Sign Up Methods
+#pragma mark -
+
+
+-(void)initialize{
+    
+    NSLog(@"panicButtonSignUpViewController initialize");
+    
+    self.userEmailTextField.delegate = self;
+    self.userNameTextField.delegate = self;
+    self.userPhoneTextField.delegate = self;
+}
+
+#pragma mark -
 #pragma mark Action Buttons Methods
 #pragma mark -
 
@@ -55,10 +70,72 @@
 
 }
 
+- (IBAction)initUserRegister:(UIButton *)sender {
+    
+    if ([self.userEmailTextField.text isEqualToString:@""] || [self.userNameTextField.text isEqualToString:@""] || [self.userPhoneTextField.text isEqualToString:@""]) {
+        
+        [[panicButtonUser sharedPanicButtonUser] showAlertViewWithMessage:kErrorIncompleteTextFields cancelButtonTitle:kErrorCloseButtonIncompleteTextFields textField:NO andActivityIndicator:NO];
+        
+    } else {
+        
+        [[panicButtonUser sharedPanicButtonUser] registerNewUserWithName:self.userNameTextField.text email:self.userEmailTextField.text andPhone:self.userPhoneTextField.text];
+    }
+    
+
+    [self.userEmailTextField endEditing:YES];
+    [self.userNameTextField endEditing:YES];
+    [self.userPhoneTextField endEditing:YES];
+    
+}
+
+
 
 - (IBAction)textFieldEditingDidEnd:(id)sender {
     
     
+}
+
+
+
+#pragma mark -
+#pragma mark Text Field Delegate Methods
+#pragma mark -
+
+
+
+
+-(BOOL) textFieldShouldReturn: (UITextField *) textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    //NSLog(@"textFieldDidBeginEditing");
+    [self moveForKeyboardUp:YES];
+    
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    //NSLog(@"textFieldDidEndEditing");
+    [self moveForKeyboardUp:NO];
+    
+}
+
+
+-(void)moveForKeyboardUp:(BOOL)up
+{
+    const int movementDistance = -130;
+    const float movementDuration = 0.3f;
+    
+    int movement = (up ? movementDistance : -movementDistance);
+    
+    [UIView beginAnimations: @"moveForKeyboardView" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
 }
 
 

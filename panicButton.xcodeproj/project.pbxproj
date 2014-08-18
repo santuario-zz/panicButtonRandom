@@ -30,6 +30,12 @@
 		E480B75F18E502E10033BDFA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E480B75E18E502E10033BDFA /* AVFoundation.framework */; };
 		E480B76118E5047F0033BDFA /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E480B76018E5047F0033BDFA /* alarm.mp3 */; };
 		E4ABE605196738BE00242EC8 /* panicButtonWatchersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */; };
+		E4C05D3C198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D31198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m */; };
+		E4C05D3D198AFEA800E8D3F2 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D33198AFEA800E8D3F2 /* SWCellScrollView.m */; };
+		E4C05D3E198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D35198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m */; };
+		E4C05D3F198AFEA800E8D3F2 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D37198AFEA800E8D3F2 /* SWTableViewCell.m */; };
+		E4C05D40198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D39198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.m */; };
+		E4C05D41198AFEA800E8D3F2 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D3B198AFEA800E8D3F2 /* SWUtilityButtonView.m */; };
 		E4CD1FC5196381940056E032 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4CD1FC4196381940056E032 /* CoreLocation.framework */; };
 		E4E6CEC218D139E200585760 /* panicButtonAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6CEC118D139E200585760 /* panicButtonAboutViewController.m */; };
 		E4E6CEC518D139F500585760 /* panicButtonAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6CEC418D139F500585760 /* panicButtonAccountViewController.m */; };
@@ -82,6 +88,18 @@
 		E480B76018E5047F0033BDFA /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 		E4ABE603196738BE00242EC8 /* panicButtonWatchersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonWatchersTableViewCell.h; path = Controllers/panicButtonWatchersTableViewCell.h; sourceTree = "<group>"; };
 		E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = panicButtonWatchersTableViewCell.m; path = Controllers/panicButtonWatchersTableViewCell.m; sourceTree = "<group>"; };
+		E4C05D30198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+SWUtilityButtons.h"; path = "External Libraries/SWTableViewCell/NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		E4C05D31198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+SWUtilityButtons.m"; path = "External Libraries/SWTableViewCell/NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		E4C05D32198AFEA800E8D3F2 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWCellScrollView.h; path = "External Libraries/SWTableViewCell/SWCellScrollView.h"; sourceTree = "<group>"; };
+		E4C05D33198AFEA800E8D3F2 /* SWCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWCellScrollView.m; path = "External Libraries/SWTableViewCell/SWCellScrollView.m"; sourceTree = "<group>"; };
+		E4C05D34198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWLongPressGestureRecognizer.h; path = "External Libraries/SWTableViewCell/SWLongPressGestureRecognizer.h"; sourceTree = "<group>"; };
+		E4C05D35198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWLongPressGestureRecognizer.m; path = "External Libraries/SWTableViewCell/SWLongPressGestureRecognizer.m"; sourceTree = "<group>"; };
+		E4C05D36198AFEA800E8D3F2 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWTableViewCell.h; path = "External Libraries/SWTableViewCell/SWTableViewCell.h"; sourceTree = "<group>"; };
+		E4C05D37198AFEA800E8D3F2 /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWTableViewCell.m; path = "External Libraries/SWTableViewCell/SWTableViewCell.m"; sourceTree = "<group>"; };
+		E4C05D38198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWUtilityButtonTapGestureRecognizer.h; path = "External Libraries/SWTableViewCell/SWUtilityButtonTapGestureRecognizer.h"; sourceTree = "<group>"; };
+		E4C05D39198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWUtilityButtonTapGestureRecognizer.m; path = "External Libraries/SWTableViewCell/SWUtilityButtonTapGestureRecognizer.m"; sourceTree = "<group>"; };
+		E4C05D3A198AFEA800E8D3F2 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWUtilityButtonView.h; path = "External Libraries/SWTableViewCell/SWUtilityButtonView.h"; sourceTree = "<group>"; };
+		E4C05D3B198AFEA800E8D3F2 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWUtilityButtonView.m; path = "External Libraries/SWTableViewCell/SWUtilityButtonView.m"; sourceTree = "<group>"; };
 		E4CD1FC4196381940056E032 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E4E6CEC018D139E200585760 /* panicButtonAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonAboutViewController.h; path = Controllers/panicButtonAboutViewController.h; sourceTree = "<group>"; };
 		E4E6CEC118D139E200585760 /* panicButtonAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = panicButtonAboutViewController.m; path = Controllers/panicButtonAboutViewController.m; sourceTree = "<group>"; };
@@ -174,6 +192,7 @@
 		E42AECCF18D12C5100008BE5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E4EECA531986F03F0027A2F2 /* External Libraries */,
 				E480B76018E5047F0033BDFA /* alarm.mp3 */,
 				E480B75C18E500430033BDFA /* beep.aiff */,
 				E42AECD018D12C5100008BE5 /* panicButton-Info.plist */,
@@ -232,6 +251,33 @@
 				E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		E4EECA531986F03F0027A2F2 /* External Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				E4EECA541986F0480027A2F2 /* SWTableViewCell */,
+			);
+			name = "External Libraries";
+			sourceTree = "<group>";
+		};
+		E4EECA541986F0480027A2F2 /* SWTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E4C05D30198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.h */,
+				E4C05D31198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m */,
+				E4C05D32198AFEA800E8D3F2 /* SWCellScrollView.h */,
+				E4C05D33198AFEA800E8D3F2 /* SWCellScrollView.m */,
+				E4C05D34198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.h */,
+				E4C05D35198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m */,
+				E4C05D36198AFEA800E8D3F2 /* SWTableViewCell.h */,
+				E4C05D37198AFEA800E8D3F2 /* SWTableViewCell.m */,
+				E4C05D38198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.h */,
+				E4C05D39198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.m */,
+				E4C05D3A198AFEA800E8D3F2 /* SWUtilityButtonView.h */,
+				E4C05D3B198AFEA800E8D3F2 /* SWUtilityButtonView.m */,
+			);
+			name = SWTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,13 +388,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4ABE605196738BE00242EC8 /* panicButtonWatchersTableViewCell.m in Sources */,
+				E4C05D3E198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m in Sources */,
 				E4E6CEC818D13FC800585760 /* panicButtonUser.m in Sources */,
+				E4C05D41198AFEA800E8D3F2 /* SWUtilityButtonView.m in Sources */,
+				E4C05D3C198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				E4E6CEC518D139F500585760 /* panicButtonAccountViewController.m in Sources */,
 				E42AED0118D12F1500008BE5 /* panicButtonSignUpViewController.m in Sources */,
+				E4C05D40198AFEA800E8D3F2 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				E42AED0418D1325A00008BE5 /* panicButtonSettingsViewController.m in Sources */,
 				E42AECD918D12C5100008BE5 /* panicButtonAppDelegate.m in Sources */,
+				E4C05D3D198AFEA800E8D3F2 /* SWCellScrollView.m in Sources */,
 				E46E1CF518DD139C00CD28F5 /* panicButtonAddContactViewController.m in Sources */,
 				E42AECD518D12C5100008BE5 /* main.m in Sources */,
+				E4C05D3F198AFEA800E8D3F2 /* SWTableViewCell.m in Sources */,
 				E42AECDF18D12C5100008BE5 /* panicButtonViewController.m in Sources */,
 				E4E6CEC218D139E200585760 /* panicButtonAboutViewController.m in Sources */,
 				E42AED0718D133CB00008BE5 /* panicButtonContactListViewController.m in Sources */,

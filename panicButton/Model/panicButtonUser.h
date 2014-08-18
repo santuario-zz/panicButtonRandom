@@ -22,12 +22,15 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+// General
+
 #define kAppName @"PANIKBTTN"
 #define kUpdateCountdownTimer @"kUpdateCountdownTimer"
 #define kUpdateContactListTableView @"kUpdateContactListTableView"
 
 #define kFinalizeCountdownTimer @"kFinalizeCountdownTimer"
 #define kBackendGeneralURL @"http://panicbutton.randominteractive.net/"
+#define kDismissSignUpView @"kDismissSignUpView"
 
 // Backend Services
 
@@ -37,9 +40,16 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 #define kContactAddBackdroundService @"contactAdd"
 #define kContactRemoveBackdroundService @"contactRemove"
 
+// Strings Messages
+
+#define kErrorConnectionMessageString @"Try again" // No hay conexión AlertView
+#define kErrorIncompleteTextFields @"You must fill out all required data" // OK
+#define kErrorCloseButtonIncompleteTextFields @"OK" // OK
+#define kSendCodeRegistrationButtonString @"Send code" // Botón Mandar Code AlertView
+#define kSendCodeRegistrationMessageString @"Enter your registration code" // Mensaje Code AlertView
 
 
-@interface panicButtonUser : NSObject <CLLocationManagerDelegate, NSURLConnectionDelegate, UIAlertViewDelegate>{
+@interface panicButtonUser : NSObject <CLLocationManagerDelegate, NSURLConnectionDelegate, UIAlertViewDelegate, UITextFieldDelegate>{
 
     
 }
@@ -57,7 +67,8 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 -(void)playAlarmSound;
 -(void)stopAlarmSoud;
 -(void)initLocationManager;
-
+-(void)showAlertViewWithMessage:(NSString *)messageString cancelButtonTitle:(NSString *)cancelString textField:(BOOL)isTextField andActivityIndicator:(BOOL)isActivityIndicator;
+-(void)deleteUserContactInBackendWithID:(NSString*)contactID;
 
 
 +(id)sharedPanicButtonUser;

@@ -13,6 +13,7 @@
     AVAudioPlayer *audioPlayer;
     NSMutableData *_responseData;
     NSURLConnection * backendConnection;
+    UIAlertView *messageAlertView;
     
 }
 
@@ -143,6 +144,8 @@
         NSLog(@"userData :: %@",userData);
         isRegistered = YES;
         
+        [self getDataContactsFromBackend];
+        
     }
     
     return isRegistered;
@@ -150,7 +153,8 @@
 
 -(void)saveUserDataInDevice{
     
-    NSString *someText = @"{'userName':'','userEmail':'','userPhone':'','userSession':'','userCountryID':'','userDeviceModel':'','userOS':'','userID':'','userContacts':[{'userContactID':'','userContactName':'','userContactEmail':'','userContactPhone':'','userContactReceivesLowBatAlert':'','userContactReceivesRangeAlert':''}]}";
+    //NSString *someText = @"{'userName':'','userEmail':'','userPhone':'','userSession':'','userCountryID':'','userDeviceModel':'','userOS':'','userID':'','userContacts':[{'userContactID':'','userContactName':'','userContactEmail':'','userContactPhone':'','userContactReceivesLowBatAlert':'','userContactReceivesRangeAlert':''}]}";
+    NSString *someText = @"{'userName':'','userEmail':'','userPhone':'','userSession':'','userCountryID':'','userDeviceModel':'','userOS':'','userID':'','userContacts':[]}";
     
     someText = [someText stringByReplacingOccurrencesOfString:@"'" withString:@"\""];
     
@@ -445,10 +449,25 @@
 #pragma mark Backend Methods
 #pragma mark -
 
+-(void)sendConfirmationCodeInBacked:(NSString *)confirmationCode{
+    
+    NSString *dataString =[NSString stringWithFormat:@"{'uid':'%@','code':'%@'}",[userData objectForKey:@"userID"],confirmationCode];
+    
+    [self initBackendRequestWithService:kUserConfirmationBackdroundService session:nil andDataString:dataString];
+}
+
+-(void)getDataContactsFromBackend{
+ 
+    NSString *dataString =[NSString stringWithFormat:@"{'uid':'%@'}",[userData objectForKey:@"userID"]];
+    
+    [self initBackendRequestWithService:kContactGetBackdroundService session:[userData objectForKey:@"userSession"] andDataString:dataString];
+
+}
 
 -(void)registerNewUserInBackendWithName:(NSString*)name email:(NSString*)email andPhone:(NSString*)phone{
 
-    // arc4random() % 50
+       // arc4random() % 50
+    [self showAlertViewWithMessage:@"Registering..." cancelButtonTitle:nil textField:NO andActivityIndicator:YES];
     
     NSString * UUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     UIDevice *currentDevice = [UIDevice currentDevice];
@@ -480,7 +499,8 @@
 
 -(void)registerNewUserContactInBackendWithName:(NSString*)contactName email:(NSString*)contactEmail andPhone:(NSString*)contactPhone withLowBatAlert:(bool)lowBatAlert andOffRangeAlert:(bool)offRageAlert{
 
-    
+    [self showAlertViewWithMessage:@"Registering..." cancelButtonTitle:nil textField:NO andActivityIndicator:YES];
+
     NSString *dataString =[NSString stringWithFormat:@"{'uid':'%@','fullname':'%@','mobile':'%@','email':'%@','receivesLowBatAlert':%d,'receivesRangeAlert':%d}",[userData objectForKey:@"userID"],contactName,contactPhone,contactEmail,lowBatAlert,offRageAlert];
     
     //NSLog(@"NEW USER :: %@",dataString);
@@ -496,6 +516,18 @@
     
     [self initBackendRequestWithService:kContactAddBackdroundService session:[userData objectForKey:@"userSession"] andDataString:dataString];
 }
+
+
+-(void)deleteUserContactInBackendWithID:(NSString*)contactID{
+    
+    
+    NSString *dataString =[NSString stringWithFormat:@"{'uid':'%@','cid':'%@'}",[userData objectForKey:@"userID"],contactID];
+    
+
+    
+    [self initBackendRequestWithService:kContactRemoveBackdroundService session:[userData objectForKey:@"userSession"] andDataString:dataString];
+}
+
 
 
 
@@ -562,27 +594,12 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"ResponseData didFailWithError: %@",error);
     
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:kAppName
-                                                      message:@"Comprueba tu conexión y vuelve a intertarlo"
-                                                     delegate:self
-                            
-                                            cancelButtonTitle:@"Volver a intentar"
-                                            otherButtonTitles:nil];
-    [message show];
-
+    [self showAlertViewWithMessage:@"Comprueba tu conexión y vuelve a intertarlo" cancelButtonTitle:kErrorConnectionMessageString textField:NO andActivityIndicator:NO];
 }
 
 
 
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Volver a intentar"])
-    {
-        [backendConnection start];
-    }
-    
-}
 
 
 -(void)didBackgroundResponseIsSuccessfulWithDictionaryData:(NSDictionary *)responseData{
@@ -592,33 +609,29 @@
     
     if ([[responseData objectForKey:@"service"] isEqualToString:kUserRegistrationBackdroundService]) {
         
-        [userData setObject:[[responseData objectForKey:@"data"] objectForKey:@"uid"] forKey:@"userID"];
-        [userData setObject:[responseData objectForKey:@"session"] forKey:@"userSession"];
-        
-        [userData setObject:userCountryID forKey:@"userCountryID"];
-        [userData setObject:userDeviceModel forKey:@"userDeviceModel"];
-        [userData setObject:userEmail forKey:@"userEmail"];
-        [userData setObject:userName forKey:@"userName"];
-        [userData setObject:userOS forKey:@"userOS"];
-        [userData setObject:userPhone forKey:@"userPhone"];
+        [self saveAfterBackedResponseRegistrationUserData:responseData];
         
     }else if ([[responseData objectForKey:@"service"] isEqualToString:kUserConfirmationBackdroundService]){
+        [userData setObject:[[responseData objectForKey:@"data"] objectForKey:@"session"] forKey:@"userSession"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDismissSignUpView object:nil];
+        [self removeMessageAlertView];
+
+        
+
         
     }else if ([[responseData objectForKey:@"service"] isEqualToString:kContactGetBackdroundService]){
         
     }else if ([[responseData objectForKey:@"service"] isEqualToString:kContactAddBackdroundService]){
         
-        [_contacts addObject:@{@"userContactEmail":[_lastContactInfoDictionary objectForKey:@"userContactEmail"],@"userContactID":[[responseData objectForKey:@"data"] objectForKey:@"cid"],@"userContactName":[_lastContactInfoDictionary objectForKey:@"userContactName"],@"userContactPhone":[_lastContactInfoDictionary objectForKey:@"userContactPhone"],@"userContactReceivesLowBatAlert":[_lastContactInfoDictionary objectForKey:@"userContactReceivesLowBatAlert"],@"userContactReceivesRangeAlert":[_lastContactInfoDictionary objectForKey:@"userContactReceivesRangeAlert"]}];
-        [userData setObject:_contacts forKey:@"userContacts"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateContactListTableView object:nil];
+        [self saveAfterBackedResponseNewContactData:responseData];
 
-        
     }else if ([[responseData objectForKey:@"service"] isEqualToString:kContactRemoveBackdroundService]){
-        
+        [userData setObject:_contacts forKey:@"userContacts"];
+        [self removeMessageAlertView];
     }
     
-    [self saveUserDataDictionaryInDevice];
     
+    [self saveUserDataDictionaryInDevice];
     
 }
 
@@ -626,6 +639,127 @@
     
     NSLog(@"didBackgroundResponseContainsErrorWithDictionaryData : %@",dictionaryData);
 
+}
+
+
+
+#pragma mark -
+#pragma mark Backend Response Methods
+#pragma mark -
+
+-(void)saveAfterBackedResponseRegistrationUserData:(NSDictionary *)responseData{
+    
+    [self removeMessageAlertView];
+    [self showAlertViewWithMessage:kSendCodeRegistrationMessageString cancelButtonTitle:kSendCodeRegistrationButtonString textField:YES andActivityIndicator:NO];
+
+    NSLog(@"%@", [[responseData objectForKey:@"data"] objectForKey:@"uid"] );
+    NSLog(@"%@", [responseData objectForKey:@"session"]);
+    NSLog(@"%@", userCountryID);
+    NSLog(@"%@", userDeviceModel);
+    NSLog(@"%@", userEmail);
+    NSLog(@"%@", userName);
+    NSLog(@"%@", userOS);
+    NSLog(@"%@", userPhone);
+
+    [userData setObject:[[responseData objectForKey:@"data"] objectForKey:@"uid"] forKey:@"userID"];
+    //[userData setObject:[responseData objectForKey:@"session"] forKey:@"userSession"]; // FIXME
+    [userData setObject:userCountryID forKey:@"userCountryID"];
+    [userData setObject:userDeviceModel forKey:@"userDeviceModel"];
+    [userData setObject:userEmail forKey:@"userEmail"];
+    [userData setObject:userName forKey:@"userName"];
+    [userData setObject:userOS forKey:@"userOS"];
+    [userData setObject:userPhone forKey:@"userPhone"];
+}
+
+
+-(void)saveAfterBackedResponseNewContactData:(NSDictionary *)responseData{
+    
+    [self removeMessageAlertView];
+
+    [_contacts addObject:@{@"userContactEmail":[_lastContactInfoDictionary objectForKey:@"userContactEmail"],@"userContactID":[[responseData objectForKey:@"data"] objectForKey:@"cid"],@"userContactName":[_lastContactInfoDictionary objectForKey:@"userContactName"],@"userContactPhone":[_lastContactInfoDictionary objectForKey:@"userContactPhone"],@"userContactReceivesLowBatAlert":[_lastContactInfoDictionary objectForKey:@"userContactReceivesLowBatAlert"],@"userContactReceivesRangeAlert":[_lastContactInfoDictionary objectForKey:@"userContactReceivesRangeAlert"]}];
+    
+    [userData setObject:_contacts forKey:@"userContacts"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateContactListTableView object:nil];
+}
+
+
+#pragma mark -
+#pragma mark Alert View Methods
+#pragma mark -
+
+-(void)showAlertViewWithMessage:(NSString *)messageString cancelButtonTitle:(NSString *)cancelString textField:(BOOL)isTextField andActivityIndicator:(BOOL)isActivityIndicator{
+    
+    
+    messageAlertView = [[UIAlertView alloc] initWithTitle:kAppName
+                                                      message:messageString
+                                                     delegate:self
+                            
+                                            cancelButtonTitle:cancelString
+                                            otherButtonTitles:nil];
+    
+    
+
+    
+    if (isActivityIndicator) {
+        
+        UIActivityIndicatorView *progress= [[UIActivityIndicatorView alloc] initWithFrame: CGRectMake(0, 0, 30, 30)];
+        progress.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        [messageAlertView setValue:progress forKey:@"accessoryView"];
+        [progress startAnimating];
+    }
+    
+    if(isTextField){
+        UITextField *codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        codeTextField.keyboardType = UIKeyboardTypeNumberPad;
+        [codeTextField setFont:[UIFont systemFontOfSize:32]];
+        codeTextField.textAlignment = NSTextAlignmentCenter;
+        codeTextField.delegate = self;
+        codeTextField.placeholder = @"----";
+        [messageAlertView setValue:codeTextField forKey:@"accessoryView"];
+        
+    }
+    
+    [messageAlertView show];
+    
+    
+    
+    /*
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"TEST" message:@"subview" delegate:nil cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
+    [av setValue:v forKey:@"accessoryView"];
+    v.backgroundColor = [UIColor yellowColor];
+    [av show];
+     */
+    
+}
+
+-(void)removeMessageAlertView{
+    [messageAlertView dismissWithClickedButtonIndex:0 animated:YES];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kErrorConnectionMessageString])
+    {
+        [backendConnection start];
+    }
+    
+    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kSendCodeRegistrationButtonString])
+    {
+        UITextField *codeText = [alertView valueForKey:@"accessoryView"];
+        NSLog(@"SEND CODE %@", codeText.text);
+        [self sendConfirmationCodeInBacked:codeText.text];
+        [self showAlertViewWithMessage:@"Sending code..." cancelButtonTitle:nil textField:NO andActivityIndicator:YES];
+    }
+    
+    
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+        [theTextField resignFirstResponder];
+    
+    return YES;
 }
 
 

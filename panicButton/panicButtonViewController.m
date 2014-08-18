@@ -79,6 +79,10 @@
                                                  name:kFinalizeCountdownTimer
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(dismissSignUpView:)
+                                                 name:kDismissSignUpView
+                                               object:nil];
 
 
 
@@ -112,6 +116,13 @@
     
     
 }
+
+
+-(void)dismissSignUpView:(NSNotification *)notification
+{
+     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 
 #pragma mark -

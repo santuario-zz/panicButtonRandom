@@ -7,17 +7,15 @@
 //
 
 #import "SWTableViewCell.h"
+#import <UIKit/UIGestureRecognizerSubclass.h>
 #import "SWUtilityButtonView.h"
 
 #define kSectionIndexWidth 15
-#define kAccessoryTrailingSpace 15
 #define kLongPressMinimumDuration 0.16f
 
 @interface SWTableViewCell () <UIScrollViewDelegate,  UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) UITableView *containingTableView;
-
-@property (nonatomic, strong) UIPanGestureRecognizer *tableViewPanGestureRecognizer;
 
 @property (nonatomic, assign) SWCellState cellState; // The state of the cell within the scroll view, can be left, right or middle
 @property (nonatomic, assign) CGFloat additionalRightPadding;
@@ -41,15 +39,39 @@
 
 @end
 
-@implementation SWTableViewCell {
-    UIView *_contentCellView;
-}
+@implementation SWTableViewCell
 
 #pragma mark Initializers
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier containingTableView:(UITableView *)containingTableView leftUtilityButtons:(NSArray *)leftUtilityButtons rightUtilityButtons:(NSArray *)rightUtilityButtons
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        [self initializer];
+        self.containingTableView = containingTableView;
+        self.rightUtilityButtons = rightUtilityButtons;
+        self.leftUtilityButtons = leftUtilityButtons;
+    }
+    
+    return self;
+}
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
+    
+    if (self)
+    {
+        [self initializer];
+    }
+    
+    return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
     
     if (self)
     {
@@ -91,13 +113,10 @@
                            ]];
     
     // Move the UITableViewCell de facto contentView into our scroll view.
-    _contentCellView = [[UIView alloc] init];
-    [_contentCellView addSubview:self.contentView];
-    [self.cellScrollView addSubview:_contentCellView];
+    [self.cellScrollView addSubview:self.contentView];
     
     self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTapped:)];
     self.tapGestureRecognizer.cancelsTouchesInView = NO;
-    self.tapGestureRecognizer.delegate             = self;
     [self.cellScrollView addGestureRecognizer:self.tapGestureRecognizer];
     
     self.longPressGestureRecognizer = [[SWLongPressGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewPressed:)];
@@ -160,24 +179,8 @@
     }
 }
 
-static NSString * const kTableViewPanState = @"state";
-
-- (void)removeOldTableViewPanObserver
-{
-    [_tableViewPanGestureRecognizer removeObserver:self forKeyPath:kTableViewPanState];
-}
-
-- (void)dealloc
-{
-    [self removeOldTableViewPanObserver];
-}
-
 - (void)setContainingTableView:(UITableView *)containingTableView
 {
-    [self removeOldTableViewPanObserver];
-    
-    _tableViewPanGestureRecognizer = containingTableView.panGestureRecognizer;
-    
     _containingTableView = containingTableView;
     
     if (containingTableView)
@@ -192,31 +195,6 @@ static NSString * const kTableViewPanState = @"state";
         _containingTableView.directionalLockEnabled = YES;
         
         [self.tapGestureRecognizer requireGestureRecognizerToFail:_containingTableView.panGestureRecognizer];
-        
-        [_tableViewPanGestureRecognizer addObserver:self forKeyPath:kTableViewPanState options:0 context:nil];
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:kTableViewPanState] && object == _tableViewPanGestureRecognizer)
-    {
-        if(_tableViewPanGestureRecognizer.state == UIGestureRecognizerStateBegan)
-        {
-            CGPoint locationInTableView = [_tableViewPanGestureRecognizer locationInView:_containingTableView];
-            
-            BOOL inCurrentCell = CGRectContainsPoint(self.frame, locationInTableView);
-            if(!inCurrentCell && _cellState != kCellStateCenter)
-            {
-                if ([self.delegate respondsToSelector:@selector(swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:)])
-                {
-                    if([self.delegate swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:self])
-                    {
-                        [self hideUtilityButtonsAnimated:YES];
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -260,16 +238,16 @@ static NSString * const kTableViewPanState = @"state";
     
     // Offset the contentView origin so that it appears correctly w/rt the enclosing scroll view (to which we moved it).
     CGRect frame = self.contentView.frame;
-    frame.origin.x = [self leftUtilityButtonsWidth];
-    _contentCellView.frame = frame;
+    frame.origin.x = self.leftUtilityButtonsView.frame.size.width;
+    self.contentView.frame = frame;
     
-    self.cellScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.frame) + [self utilityButtonsPadding], CGRectGetHeight(self.frame));
+    self.cellScrollView.contentSize = CGSizeMake(self.frame.size.width + [self utilityButtonsPadding], self.frame.size.height);
     
     if (!self.cellScrollView.isTracking && !self.cellScrollView.isDecelerating)
     {
         self.cellScrollView.contentOffset = [self contentOffsetForCellState:_cellState];
     }
-    
+
     [self updateCellState];
 }
 
@@ -277,7 +255,7 @@ static NSString * const kTableViewPanState = @"state";
 {
     [super prepareForReuse];
     
-    [self hideUtilityButtonsAnimated:NO];
+    _cellState = kCellStateCenter;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -293,14 +271,6 @@ static NSString * const kTableViewPanState = @"state";
     [self.rightUtilityButtonsView popBackgroundColors];
 }
 
-- (void)didTransitionToState:(UITableViewCellStateMask)state {
-    [super didTransitionToState:state];
-
-    if (state == UITableViewCellStateDefaultMask) {
-        [self layoutSubviews];
-    }
-}
-
 #pragma mark - Selection handling
 
 - (BOOL)shouldHighlight
@@ -310,10 +280,10 @@ static NSString * const kTableViewPanState = @"state";
     if ([self.containingTableView.delegate respondsToSelector:@selector(tableView:shouldHighlightRowAtIndexPath:)])
     {
         NSIndexPath *cellIndexPath = [self.containingTableView indexPathForCell:self];
-        
+
         shouldHighlight = [self.containingTableView.delegate tableView:self.containingTableView shouldHighlightRowAtIndexPath:cellIndexPath];
     }
-    
+
     return shouldHighlight;
 }
 
@@ -323,14 +293,14 @@ static NSString * const kTableViewPanState = @"state";
     {
         [self setHighlighted:YES animated:NO];
     }
-    
+
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
     {
         // Cell is already highlighted; clearing it temporarily seems to address visual anomaly.
         [self setHighlighted:NO animated:NO];
         [self scrollViewTapped:gestureRecognizer];
     }
-    
+
     else if (gestureRecognizer.state == UIGestureRecognizerStateCancelled)
     {
         [self setHighlighted:NO animated:NO];
@@ -438,45 +408,17 @@ static NSString * const kTableViewPanState = @"state";
     }
 }
 
-- (void)showLeftUtilityButtonsAnimated:(BOOL)animated {
-    if (_cellState != kCellStateLeft)
-    {
-        [self.cellScrollView setContentOffset:[self contentOffsetForCellState:kCellStateLeft] animated:animated];
-        
-        if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:scrollingToState:)])
-        {
-            [self.delegate swipeableTableViewCell:self scrollingToState:kCellStateLeft];
-        }
-    }
-}
-
-- (void)showRightUtilityButtonsAnimated:(BOOL)animated {
-    if (_cellState != kCellStateRight)
-    {
-        [self.cellScrollView setContentOffset:[self contentOffsetForCellState:kCellStateRight] animated:animated];
-        
-        if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:scrollingToState:)])
-        {
-            [self.delegate swipeableTableViewCell:self scrollingToState:kCellStateRight];
-        }
-    }
-}
-
-- (BOOL)isUtilityButtonsHidden {
-    return _cellState == kCellStateCenter;
-}
-
 
 #pragma mark - Geometry helpers
 
 - (CGFloat)leftUtilityButtonsWidth
 {
-    return CGRectGetWidth(self.leftUtilityButtonsView.frame);
+    return self.leftUtilityButtonsView.frame.size.width;
 }
 
 - (CGFloat)rightUtilityButtonsWidth
 {
-    return CGRectGetWidth(self.rightUtilityButtonsView.frame) + self.additionalRightPadding;
+    return self.rightUtilityButtonsView.frame.size.width + self.additionalRightPadding;
 }
 
 - (CGFloat)utilityButtonsPadding
@@ -494,12 +436,12 @@ static NSString * const kTableViewPanState = @"state";
             scrollPt.x = [self leftUtilityButtonsWidth];
             break;
             
-        case kCellStateRight:
-            scrollPt.x = [self utilityButtonsPadding];
-            break;
-            
         case kCellStateLeft:
             scrollPt.x = 0;
+            break;
+            
+        case kCellStateRight:
+            scrollPt.x = [self utilityButtonsPadding];
             break;
     }
     
@@ -523,30 +465,11 @@ static NSString * const kTableViewPanState = @"state";
             break;
         }
     }
-    
+
     // Update the clipping on the utility button views according to the current position.
     CGRect frame = [self.contentView.superview convertRect:self.contentView.frame toView:self];
-    frame.size.width = CGRectGetWidth(self.frame);
-    
     self.leftUtilityClipConstraint.constant = MAX(0, CGRectGetMinX(frame) - CGRectGetMinX(self.frame));
     self.rightUtilityClipConstraint.constant = MIN(0, CGRectGetMaxX(frame) - CGRectGetMaxX(self.frame));
-
-    if (self.isEditing) {
-        self.leftUtilityClipConstraint.constant = 0;
-        self.cellScrollView.contentOffset = CGPointMake([self leftUtilityButtonsWidth], 0);
-        _cellState = kCellStateCenter;
-    }
-    
-    self.leftUtilityClipView.hidden = (self.leftUtilityClipConstraint.constant == 0);
-    self.rightUtilityClipView.hidden = (self.rightUtilityClipConstraint.constant == 0);
-
-    if (self.accessoryType != UITableViewCellAccessoryNone && !self.editing) {
-        UIView *accessory = [self.cellScrollView.superview.subviews lastObject];
-        
-        CGRect accessoryFrame = accessory.frame;
-        accessoryFrame.origin.x = CGRectGetWidth(frame) - CGRectGetWidth(accessoryFrame) - kAccessoryTrailingSpace + CGRectGetMinX(frame);
-        accessory.frame = accessoryFrame;
-    }
 
     // Enable or disable the gesture recognizers according to the current mode.
     if (!self.cellScrollView.isDragging && !self.cellScrollView.isDecelerating)
@@ -559,7 +482,7 @@ static NSString * const kTableViewPanState = @"state";
         self.tapGestureRecognizer.enabled = NO;
         self.longPressGestureRecognizer.enabled = NO;
     }
-    
+
     self.cellScrollView.scrollEnabled = !self.isEditing;
 }
 
@@ -569,7 +492,7 @@ static NSString * const kTableViewPanState = @"state";
 {
     if (velocity.x >= 0.5f)
     {
-        if (_cellState == kCellStateLeft || !self.rightUtilityButtons || self.rightUtilityButtonsWidth == 0.0)
+        if (_cellState == kCellStateLeft)
         {
             _cellState = kCellStateCenter;
         }
@@ -580,7 +503,7 @@ static NSString * const kTableViewPanState = @"state";
     }
     else if (velocity.x <= -0.5f)
     {
-        if (_cellState == kCellStateRight || !self.leftUtilityButtons || self.leftUtilityButtonsWidth == 0.0)
+        if (_cellState == kCellStateRight)
         {
             _cellState = kCellStateCenter;
         }
@@ -683,15 +606,6 @@ static NSString * const kTableViewPanState = @"state";
     [self updateCellState];
 }
 
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        self.tapGestureRecognizer.enabled = YES;
-    }
-    
-}
-
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -706,11 +620,6 @@ static NSString * const kTableViewPanState = @"state";
     {
         return NO;
     }
-}
-
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    return ![touch.view isKindOfClass:[UIControl class]];
 }
 
 @end

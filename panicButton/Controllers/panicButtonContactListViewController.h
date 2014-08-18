@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "panicButtonUser.h"
+#import "SWTableViewCell.h"
+#import "panicButtonWatchersTableViewCell.h"
 
 
-@interface panicButtonContactListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+@interface panicButtonContactListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *watchersListTableView;
 
 
 

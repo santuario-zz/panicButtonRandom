@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface panicButtonSignUpViewController : UIViewController
+@interface panicButtonSignUpViewController : UIViewController <UITextFieldDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *userEmailTextField;
 
 @property (weak, nonatomic) IBOutlet UITextField *userPhoneTextField;
+
+
 
 @end

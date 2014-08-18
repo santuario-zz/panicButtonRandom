@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5AD627F2-ADA7-4FBC-BDE2-34AD49F1D569</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MLKLoadingAlertView</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B340148A-E320-43A4-B9F0-E44AF852999A</key>
+		<string>https://github.com/santuario/panicButtonRandom.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>support/MLKLoadingAlertView/MLKLoadingAlertView.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B340148A-E320-43A4-B9F0-E44AF852999A</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/santuario/panicButtonRandom.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B340148A-E320-43A4-B9F0-E44AF852999A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B340148A-E320-43A4-B9F0-E44AF852999A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>panicButton</string>
+		</dict>
+	</array>
+</dict>
+</plist>

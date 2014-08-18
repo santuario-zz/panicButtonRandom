@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
-@interface SwipeTableViewController : UITableViewController
+@interface SwipeTableViewController : UITableViewController <SWTableViewCellDelegate>
 
 @end

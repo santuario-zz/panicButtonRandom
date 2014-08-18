@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>798A4ADE-050D-4F58-A6A2-2DFDC16FFE11</string>
+	<string>647D6B9D-8C13-461D-9EBA-F43FC784C362</string>
 	<key>IDESourceControlProjectName</key>
-	<string>SwipeTableCell</string>
+	<string>constraint</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>46F7037E-736B-4B43-8D5D-AE7054DC22EE</key>
+		<key>B340148A-E320-43A4-B9F0-E44AF852999A</key>
 		<string>https://github.com/santuario/panicButtonRandom.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>support/SwipeTableCell/SwipeTableCell.xcodeproj/project.xcworkspace</string>
+	<string>support/constraint/constraint.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>46F7037E-736B-4B43-8D5D-AE7054DC22EE</key>
+		<key>B340148A-E320-43A4-B9F0-E44AF852999A</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,16 +25,16 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>46F7037E-736B-4B43-8D5D-AE7054DC22EE</string>
+	<string>B340148A-E320-43A4-B9F0-E44AF852999A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>46F7037E-736B-4B43-8D5D-AE7054DC22EE</string>
+			<string>B340148A-E320-43A4-B9F0-E44AF852999A</string>
 			<key>IDESourceControlWCCName</key>
-			<string>panicButtonRandom</string>
+			<string>panicButton</string>
 		</dict>
 	</array>
 </dict>
