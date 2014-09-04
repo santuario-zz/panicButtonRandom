@@ -8,8 +8,11 @@
 
 #import "panicButtonContactListViewController.h"
 
-@interface panicButtonContactListViewController ()
+@interface panicButtonContactListViewController (){
+    int indexSelected;
+}
 @property (weak, nonatomic) IBOutlet UITableView *contactListtableView;
+
 
 @end
 
@@ -54,6 +57,7 @@
     
     self.watchersListTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     [self initializeNotificationCenter];
+    indexSelected = 1000;
 
 }
 
@@ -72,6 +76,33 @@
 #pragma mark -
 #pragma mark Table View Methods
 #pragma mark -
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexSelected == indexPath.row) {
+        indexSelected = 1000;
+    }else{
+        indexSelected = indexPath.row;
+
+    }
+    
+    [tableView beginUpdates];
+    
+    
+    [tableView endUpdates];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    
+    //NSLog(@"heightForRowAtIndexPath indexPath %@ %@", indexPath, [tableView indexPathForSelectedRow]);
+
+    if (indexPath.row == indexSelected) {
+        return 120.0;
+    }
+    
+    return 65.0;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -97,8 +128,6 @@
     
     */
     
-    
-    
     static NSString *cellIdentifier = @"contactCell";
     
      panicButtonWatchersTableViewCell *cell = (panicButtonWatchersTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
@@ -108,16 +137,16 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     
     
-    [leftUtilityButtons sw_addUtilityButtonWithColor:
+
+    [leftUtilityButtons sw_addUtilityButtonWithColor:RGBUIColor(47, 179, 215, 1) title:@"block" andFont:[UIFont fontWithName:kZagRegular size:20]];
+
+    /*
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
      [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"Block"];
+                                                title:@"More"];*/
     
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"More"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                title:@"Delete"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:RGBUIColor(226, 57, 62, 1) title:@"delete" andFont:[UIFont fontWithName:kZagRegular size:20]];
+    
     
     cell.leftUtilityButtons = leftUtilityButtons;
     cell.rightUtilityButtons = rightUtilityButtons;
@@ -125,7 +154,16 @@
     
     // Configure the cell...
     cell.watcherNameLabel.text = [[[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row] objectForKey:@"userContactName"];
-    cell.watcherPhoneLabel.text = [[[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row] objectForKey:@"userContactEmail"];
+    cell.watcherNameLabel.font = [UIFont fontWithName:kZagBold size:25];
+    
+    cell.watcherPhoneLabel.text = [[[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row] objectForKey:@"userContactPhone"];
+    cell.watcherPhoneLabel.font = [UIFont fontWithName:kZagRegular size:14];
+    
+    cell.watcherEmailLabel.text = [[[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row] objectForKey:@"userContactEmail"];
+    cell.watcherEmailLabel.font = [UIFont fontWithName:kZagRegular size:14];
+    
+    cell.watcherIDLabel.text = [[[[panicButtonUser sharedPanicButtonUser] contacts] objectAtIndex:indexPath.row] objectForKey:@"userContactID"];
+    cell.watcherIDLabel.font = [UIFont fontWithName:kZagRegular size:14];
     
     
     return cell;

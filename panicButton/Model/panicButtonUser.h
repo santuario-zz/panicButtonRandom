@@ -39,6 +39,8 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 #define kContactGetBackdroundService @"contactGet"
 #define kContactAddBackdroundService @"contactAdd"
 #define kContactRemoveBackdroundService @"contactRemove"
+#define kSendLocationBackdroundService @"locationSet"
+
 
 // Strings Messages
 
@@ -47,6 +49,17 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 #define kErrorCloseButtonIncompleteTextFields @"OK" // OK
 #define kSendCodeRegistrationButtonString @"Send code" // Botón Mandar Code AlertView
 #define kSendCodeRegistrationMessageString @"Enter your registration code" // Mensaje Code AlertView
+#define kInternetConnectionFailedMessage @"Comprueba tu conexión y vuelve a intertarlo"
+
+// UI
+
+
+#define RGBUIColor(r, g, b,a)  [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:a]
+
+#define kZagRegular @"ZagRegular"
+
+#define kZagBold @"ZagBold"
+
 
 
 @interface panicButtonUser : NSObject <CLLocationManagerDelegate, NSURLConnectionDelegate, UIAlertViewDelegate, UITextFieldDelegate>{
@@ -69,6 +82,7 @@ panicButtonUser * user = [panicButtonUser sharedPanicButtonUser];
 -(void)initLocationManager;
 -(void)showAlertViewWithMessage:(NSString *)messageString cancelButtonTitle:(NSString *)cancelString textField:(BOOL)isTextField andActivityIndicator:(BOOL)isActivityIndicator;
 -(void)deleteUserContactInBackendWithID:(NSString*)contactID;
+-(void)sendLocationInBackedWithLongitud:(double)longitud latitud:(double)latitud andCourse:(double)course;
 
 
 +(id)sharedPanicButtonUser;

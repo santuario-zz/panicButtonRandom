@@ -7,6 +7,8 @@
 //
 
 #import "panicButtonUser.h"
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 
 @interface panicButtonUser(){
     SystemSoundID mBeep;
@@ -14,7 +16,8 @@
     NSMutableData *_responseData;
     NSURLConnection * backendConnection;
     UIAlertView *messageAlertView;
-    
+    BOOL _canUpdateLocationToBackend;
+    NSString *lastRequestString;
 }
 
 @property (nonatomic, strong) NSString *userName;
@@ -78,6 +81,8 @@
         _responseData = [[NSMutableData alloc] init];
         userData = [[NSMutableDictionary alloc] init];
         _lastContactInfoDictionary = [[NSMutableDictionary alloc] init];
+        _canUpdateLocationToBackend = YES;
+        lastRequestString = @"";
 
     }
     
@@ -425,29 +430,82 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 
-    [self.locations addObject:newLocation];
-    
-    // Remove values if the array is too big
-    while (self.locations.count > 100)
-    {
-        [self.locations removeObjectAtIndex:0];
+    if (_canUpdateLocationToBackend) {
+        [self.locations addObject:newLocation];
+        
+        // Remove values if the array is too big
+        while (self.locations.count > 100)
+        {
+            [self.locations removeObjectAtIndex:0];
+        }
+        
+        if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive)
+        {
+            //NSLog(@"App active. New location is %@", newLocation);
+            
+            //[self sendLocationInBackedWithLongitud:newLocation.coordinate.longitude latitud:newLocation.coordinate.latitude andCourse:newLocation.course];
+        }
+        else
+        {
+            //NSLog(@"App is backgrounded. New location is %@", newLocation);
+        }
+
     }
     
-    if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive)
-    {
-        //NSLog(@"App active. New location is %@", newLocation);
-    }
-    else
-    {
-        //NSLog(@"App is backgrounded. New location is %@", newLocation);
-    }
+
 }
 
+- (NSString *)getIPAddress{
+    
+    NSString *address = @"error";
+    struct ifaddrs *interfaces = NULL;
+    struct ifaddrs *temp_addr = NULL;
+    int success = 0;
+    // retrieve the current interfaces - returns 0 on success
+    success = getifaddrs(&interfaces);
+    if (success == 0) {
+        // Loop through linked list of interfaces
+        temp_addr = interfaces;
+        while(temp_addr != NULL) {
+            if(temp_addr->ifa_addr->sa_family == AF_INET) {
+                // Check if interface is en0 which is the wifi connection on the iPhone
+                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                    // Get NSString from C String
+                    //address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                    
+                    
+                }
+                address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+                
+            }
+            
+            temp_addr = temp_addr->ifa_next;
+        }
+    }
+    // Free memory
+    freeifaddrs(interfaces);
+    return address;
+    
+}
 
 
 #pragma mark -
 #pragma mark Backend Methods
 #pragma mark -
+
+
+-(void)sendLocationInBackedWithLongitud:(double)longitud latitud:(double)latitud andCourse:(double)course{
+    
+    
+    NSString *dataString =[NSString stringWithFormat:@"{'uid':'%@','altitude':'%f','latitude':'%f','longitude':'%f','ipaddress':'%@'}",[userData objectForKey:@"userID"],course,latitud,longitud,[self getIPAddress]];
+    
+    //NSLog(@"IP ADRSS :: %@",dataString);
+    
+    [self initBackendRequestWithService:kSendLocationBackdroundService session:nil andDataString:dataString];
+}
+
+
 
 -(void)sendConfirmationCodeInBacked:(NSString *)confirmationCode{
     
@@ -460,7 +518,7 @@
  
     NSString *dataString =[NSString stringWithFormat:@"{'uid':'%@'}",[userData objectForKey:@"userID"]];
     
-    [self initBackendRequestWithService:kContactGetBackdroundService session:[userData objectForKey:@"userSession"] andDataString:dataString];
+    [self initBackendRequestWithService:kContactGetBackdroundService session:nil andDataString:dataString];
 
 }
 
@@ -533,6 +591,8 @@
 
 -(void)initBackendRequestWithService:(NSString *)serviceString session:(NSString *)session andDataString:(NSString *)dataString{
     
+    _canUpdateLocationToBackend = NO;
+    
     NSString *url;
     
     if (session == nil) {
@@ -544,11 +604,11 @@
     
     
     
-    NSString *encodedUrl = [url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    lastRequestString = [url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
     
-    NSLog(@"URL - %@", encodedUrl);              // Checking the url
+    NSLog(@"URL - %@", lastRequestString);              // Checking the url
     
-    NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[NSURL URLWithString:encodedUrl]
+    NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[NSURL URLWithString:lastRequestString]
                                                              cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                          timeoutInterval:10.0];
     
@@ -556,6 +616,17 @@
 
 
     
+}
+
+-(void)restartBackendRequest{
+    
+    NSLog(@"restartBackendRequest URL - %@", lastRequestString);              // Checking the url
+    
+    NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[NSURL URLWithString:lastRequestString]
+                                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                         timeoutInterval:10.0];
+    
+    backendConnection =[[NSURLConnection alloc] initWithRequest:theRequest delegate:self startImmediately:YES];
 }
 
 
@@ -581,6 +652,7 @@
     NSError *myError = nil;
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:_responseData options:NSJSONReadingMutableLeaves error:&myError];
     
+    _canUpdateLocationToBackend = YES;
     
     if ([[responseData objectForKey:@"status"] isEqualToString:@"OK"]) {
         [self didBackgroundResponseIsSuccessfulWithDictionaryData:responseData];
@@ -594,7 +666,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"ResponseData didFailWithError: %@",error);
     
-    [self showAlertViewWithMessage:@"Comprueba tu conexión y vuelve a intertarlo" cancelButtonTitle:kErrorConnectionMessageString textField:NO andActivityIndicator:NO];
+    [self showAlertViewWithMessage:kInternetConnectionFailedMessage cancelButtonTitle:kErrorConnectionMessageString textField:NO andActivityIndicator:NO];
 }
 
 
@@ -630,6 +702,7 @@
         [self removeMessageAlertView];
     }
     
+
     
     [self saveUserDataDictionaryInDevice];
     
@@ -741,7 +814,7 @@
 {
     if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kErrorConnectionMessageString])
     {
-        [backendConnection start];
+        [self restartBackendRequest];
     }
     
     if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kSendCodeRegistrationButtonString])

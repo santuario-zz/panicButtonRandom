@@ -7,12 +7,19 @@
 //
 
 #import "panicButtonAboutViewController.h"
+#import "panicButtonUser.h"
+
 
 @interface panicButtonAboutViewController ()
 
 @end
 
 @implementation panicButtonAboutViewController
+
+
+#pragma mark -
+#pragma mark Life Cycle Methods
+#pragma mark -
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +33,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	// Do any additional setup after loading the view4
+    [self initialize];
+}
+
+
+#pragma mark -
+#pragma mark Methods
+#pragma mark -
+
+-(void)initialize{
+    
+    self.aboutAppDescriptionTextView.font = [UIFont fontWithName:kZagRegular size:14];
+    
 }
 
 - (void)didReceiveMemoryWarning

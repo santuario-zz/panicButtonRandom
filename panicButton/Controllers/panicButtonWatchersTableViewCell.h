@@ -14,5 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *watcherNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *watcherPhoneLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *watcherStatusImage;
+@property (weak, nonatomic) IBOutlet UILabel *watcherEmailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *watcherIDLabel;
 
 @end

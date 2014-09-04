@@ -160,11 +160,29 @@
 -(void)initialize{
     
     NSLog(@"panicButtonAddContactViewController initialize");
+    [self initializeTextFields];
     
     
 }
 
+-(void)initializeTextFields{
+    
+  self.getFromContactsButton.titleLabel.font = [UIFont fontWithName:kZagRegular size:25];
+    
 
+    
+    self.nameNewContactTextField.font = [UIFont fontWithName:kZagRegular size:20];
+    [self.nameNewContactTextField setTextColor:RGBUIColor(245, 69, 74,1)];
+    self.nameNewContactTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"   name" attributes:@{NSForegroundColorAttributeName: RGBUIColor(245, 69, 74,0.3)}];
+    
+    self.emailNewContactTextField.font = [UIFont fontWithName:kZagRegular size:20];
+    [self.emailNewContactTextField setTextColor:RGBUIColor(245, 69, 74,1)];
+    self.emailNewContactTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"   e-mail" attributes:@{NSForegroundColorAttributeName: RGBUIColor(245, 69, 74,0.3)}];
+    
+    self.phoneNewContactTextField.font = [UIFont fontWithName:kZagRegular size:20];
+    [self.phoneNewContactTextField setTextColor:RGBUIColor(245, 69, 74,1)];
+    self.phoneNewContactTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"   phone" attributes:@{NSForegroundColorAttributeName: RGBUIColor(245, 69, 74,0.3)}];
+}
 
 /*
 #pragma mark - Navigation

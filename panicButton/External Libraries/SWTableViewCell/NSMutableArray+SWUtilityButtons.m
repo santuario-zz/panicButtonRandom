@@ -10,6 +10,19 @@
 
 @implementation NSMutableArray (SWUtilityButtons)
 
+
+
+- (void)sw_addUtilityButtonWithColor:(UIColor *)color title:(NSString *)title andFont:(UIFont *)font{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.backgroundColor = color;
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+
+    [self addObject:button];
+    
+}
+
 - (void)sw_addUtilityButtonWithColor:(UIColor *)color title:(NSString *)title
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

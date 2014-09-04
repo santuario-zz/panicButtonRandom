@@ -29,7 +29,10 @@
 		E480B75D18E500430033BDFA /* beep.aiff in Resources */ = {isa = PBXBuildFile; fileRef = E480B75C18E500430033BDFA /* beep.aiff */; };
 		E480B75F18E502E10033BDFA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E480B75E18E502E10033BDFA /* AVFoundation.framework */; };
 		E480B76118E5047F0033BDFA /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E480B76018E5047F0033BDFA /* alarm.mp3 */; };
+		E4A031C119B4FD3800235E7C /* AADatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E4A031C019B4FD3800235E7C /* AADatePicker.m */; };
 		E4ABE605196738BE00242EC8 /* panicButtonWatchersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */; };
+		E4BDE0AC19AE61CD00319435 /* Zag_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4DB38CC19AE5EB700F3AEAA /* Zag_Bold.ttf */; };
+		E4BDE0AD19AE61D600319435 /* Zag_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4DB38CD19AE5EB700F3AEAA /* Zag_Regular.ttf */; };
 		E4C05D3C198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D31198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.m */; };
 		E4C05D3D198AFEA800E8D3F2 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D33198AFEA800E8D3F2 /* SWCellScrollView.m */; };
 		E4C05D3E198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C05D35198AFEA800E8D3F2 /* SWLongPressGestureRecognizer.m */; };
@@ -86,6 +89,8 @@
 		E480B75C18E500430033BDFA /* beep.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = beep.aiff; sourceTree = "<group>"; };
 		E480B75E18E502E10033BDFA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E480B76018E5047F0033BDFA /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
+		E4A031BF19B4FD3800235E7C /* AADatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AADatePicker.h; path = "External Libraries/CustomDataPicker/AADatePicker.h"; sourceTree = "<group>"; };
+		E4A031C019B4FD3800235E7C /* AADatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AADatePicker.m; path = "External Libraries/CustomDataPicker/AADatePicker.m"; sourceTree = "<group>"; };
 		E4ABE603196738BE00242EC8 /* panicButtonWatchersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonWatchersTableViewCell.h; path = Controllers/panicButtonWatchersTableViewCell.h; sourceTree = "<group>"; };
 		E4ABE604196738BE00242EC8 /* panicButtonWatchersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = panicButtonWatchersTableViewCell.m; path = Controllers/panicButtonWatchersTableViewCell.m; sourceTree = "<group>"; };
 		E4C05D30198AFEA800E8D3F2 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+SWUtilityButtons.h"; path = "External Libraries/SWTableViewCell/NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
@@ -101,6 +106,8 @@
 		E4C05D3A198AFEA800E8D3F2 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWUtilityButtonView.h; path = "External Libraries/SWTableViewCell/SWUtilityButtonView.h"; sourceTree = "<group>"; };
 		E4C05D3B198AFEA800E8D3F2 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWUtilityButtonView.m; path = "External Libraries/SWTableViewCell/SWUtilityButtonView.m"; sourceTree = "<group>"; };
 		E4CD1FC4196381940056E032 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E4DB38CC19AE5EB700F3AEAA /* Zag_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zag_Bold.ttf; path = Fonts/Zag_Bold.ttf; sourceTree = "<group>"; };
+		E4DB38CD19AE5EB700F3AEAA /* Zag_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zag_Regular.ttf; path = Fonts/Zag_Regular.ttf; sourceTree = "<group>"; };
 		E4E6CEC018D139E200585760 /* panicButtonAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonAboutViewController.h; path = Controllers/panicButtonAboutViewController.h; sourceTree = "<group>"; };
 		E4E6CEC118D139E200585760 /* panicButtonAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = panicButtonAboutViewController.m; path = Controllers/panicButtonAboutViewController.m; sourceTree = "<group>"; };
 		E4E6CEC318D139F500585760 /* panicButtonAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = panicButtonAccountViewController.h; path = Controllers/panicButtonAccountViewController.h; sourceTree = "<group>"; };
@@ -192,6 +199,7 @@
 		E42AECCF18D12C5100008BE5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E4DB38CB19AE5EAA00F3AEAA /* Fonts */,
 				E4EECA531986F03F0027A2F2 /* External Libraries */,
 				E480B76018E5047F0033BDFA /* alarm.mp3 */,
 				E480B75C18E500430033BDFA /* beep.aiff */,
@@ -253,9 +261,28 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		E4A031BE19B4FD2900235E7C /* CustomDataPicker */ = {
+			isa = PBXGroup;
+			children = (
+				E4A031BF19B4FD3800235E7C /* AADatePicker.h */,
+				E4A031C019B4FD3800235E7C /* AADatePicker.m */,
+			);
+			name = CustomDataPicker;
+			sourceTree = "<group>";
+		};
+		E4DB38CB19AE5EAA00F3AEAA /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E4DB38CC19AE5EB700F3AEAA /* Zag_Bold.ttf */,
+				E4DB38CD19AE5EB700F3AEAA /* Zag_Regular.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		E4EECA531986F03F0027A2F2 /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E4A031BE19B4FD2900235E7C /* CustomDataPicker */,
 				E4EECA541986F0480027A2F2 /* SWTableViewCell */,
 			);
 			name = "External Libraries";
@@ -364,6 +391,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4BDE0AD19AE61D600319435 /* Zag_Regular.ttf in Resources */,
+				E4BDE0AC19AE61CD00319435 /* Zag_Bold.ttf in Resources */,
 				E42AECE118D12C5100008BE5 /* Images.xcassets in Resources */,
 				E480B75D18E500430033BDFA /* beep.aiff in Resources */,
 				E42AECD318D12C5100008BE5 /* InfoPlist.strings in Resources */,
@@ -400,6 +429,7 @@
 				E4C05D3D198AFEA800E8D3F2 /* SWCellScrollView.m in Sources */,
 				E46E1CF518DD139C00CD28F5 /* panicButtonAddContactViewController.m in Sources */,
 				E42AECD518D12C5100008BE5 /* main.m in Sources */,
+				E4A031C119B4FD3800235E7C /* AADatePicker.m in Sources */,
 				E4C05D3F198AFEA800E8D3F2 /* SWTableViewCell.m in Sources */,
 				E42AECDF18D12C5100008BE5 /* panicButtonViewController.m in Sources */,
 				E4E6CEC218D139E200585760 /* panicButtonAboutViewController.m in Sources */,
@@ -469,7 +499,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -487,6 +518,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "369361fa-c417-48ae-b151-cc3cfdc6e04e";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -507,7 +539,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -518,6 +551,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "369361fa-c417-48ae-b151-cc3cfdc6e04e";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -528,10 +562,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "panicButton/panicButton-Prefix.pch";
 				INFOPLIST_FILE = "panicButton/panicButton-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "369361fa-c417-48ae-b151-cc3cfdc6e04e";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -541,10 +578,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: adrian santuario (4K6BFJ7S4N)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "panicButton/panicButton-Prefix.pch";
 				INFOPLIST_FILE = "panicButton/panicButton-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "369361fa-c417-48ae-b151-cc3cfdc6e04e";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneNewContactTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *contactReceivesLowBatAlertSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *contactReceivesOffRangeAlertSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *getFromContactsButton;
 
 - (IBAction)addContact:(UIButton *)sender;
 

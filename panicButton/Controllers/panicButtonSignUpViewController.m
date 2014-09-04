@@ -55,10 +55,89 @@
     
     NSLog(@"panicButtonSignUpViewController initialize");
     
+    [self initiaizeTextFields];
+    [self setupLogoAnimation];
+
+    
+}
+
+-(void)initiaizeTextFields{
+    
+    /*
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
+     */
+    
+    self.registerButton.titleLabel.font = [UIFont fontWithName:kZagRegular size:25];
+    
+    
     self.userEmailTextField.delegate = self;
     self.userNameTextField.delegate = self;
     self.userPhoneTextField.delegate = self;
+    
+    self.userNameTextField.font = [UIFont fontWithName:kZagRegular size:20];    
+    [self.userNameTextField setTextColor:RGBUIColor(245, 69, 74,1)];
+    self.userNameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"   name" attributes:@{NSForegroundColorAttributeName: RGBUIColor(245, 69, 74,0.3)}];
+    
+    self.userEmailTextField.font = [UIFont fontWithName:kZagRegular size:20];
+    [self.userEmailTextField setTextColor:RGBUIColor(245, 69, 74,1)];
+    self.userEmailTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"   e-mail" attributes:@{NSForegroundColorAttributeName: RGBUIColor(245, 69, 74,0.3)}];
+    
+    self.userPhoneTextField.font = [UIFont fontWithName:kZagRegular size:20];
+    [self.userPhoneTextField setTextColor:RGBUIColor(245, 69, 74,1)];
+    self.userPhoneTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"   phone" attributes:@{NSForegroundColorAttributeName: RGBUIColor(245, 69, 74,0.3)}];
+    
+    self.adviceLabel.font = [UIFont fontWithName:kZagRegular size:14];
+    self.signInLabel.font = [UIFont fontWithName:kZagRegular size:26];
+    [self.signInLabel setTextColor:RGBUIColor(245, 69, 74,1)];
+    
 }
+
+
+
+#pragma mark -
+#pragma mark Logo Animation Methods
+#pragma mark -
+
+-(void)setupLogoAnimation{
+    
+    self.logoHandShadowImageView.alpha = 0.0;
+    
+    [self performSelector:@selector(initLogoAnimation) withObject:nil afterDelay:1.0];
+}
+
+-(void)initLogoAnimation{
+    
+    
+    [UIView animateWithDuration:0.7 animations:^{
+        [self.logoBackgroundImageView setFrame:CGRectMake(9.5, 4, 179, 194)];
+        [self.logoHandImageView setFrame:CGRectMake(53, 53, 90, 108)];
+        
+    }
+                     completion:^(BOOL finished){[self initIconAnimation];}];
+}
+
+
+-(void)initIconAnimation{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.logoHandShadowImageView.alpha = 1.0;
+    }
+                     completion:^(BOOL finished){[self LogoAnimationComplete];}];
+    
+}
+
+-(void)LogoAnimationComplete{
+    
+}
+
+
 
 #pragma mark -
 #pragma mark Action Buttons Methods
@@ -126,7 +205,7 @@
 
 -(void)moveForKeyboardUp:(BOOL)up
 {
-    const int movementDistance = -130;
+    const int movementDistance = -185;
     const float movementDuration = 0.3f;
     
     int movement = (up ? movementDistance : -movementDistance);

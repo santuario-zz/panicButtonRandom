@@ -10,4 +10,10 @@
 
 @interface panicButtonAccountViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *userMailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *userPhoneTextField;
+@property (weak, nonatomic) IBOutlet UITextField *userIDTextField;
+
+
 @end

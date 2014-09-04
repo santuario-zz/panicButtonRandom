@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface panicButtonAboutViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextView *aboutAppDescriptionTextView;
 
 @end
